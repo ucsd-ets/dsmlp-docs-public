@@ -21,6 +21,7 @@ $ucsd-navy-active: #004268;
 $ucsd-gray: #747678;
 $ucsd-yellow: #ffcd00;
 $ucsd-sand: #f5f0e6;
+$ucsd-teal: #00c6d7;
 $ucsd-dark-gray: #484949;
 
 #{$canvas} {
@@ -73,6 +74,22 @@ $ucsd-dark-gray: #484949;
 		}
 	}
 
+	// GitHub alert callouts (> [!NOTE] etc), mapped by the plugin.
+	// Colors are drawn from the UCSD palette rather than Bootstrap's
+	// contextual classes, which Decorator does not restyle.
+	.docs-note__label {
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: .04em;
+		font-size: 13px;
+		margin-bottom: 4px;
+		color: $ucsd-dark-blue;
+	}
+
+	.docs-note--note { border-left-color: $ucsd-blue; }
+	.docs-note--tip { border-left-color: $ucsd-teal; }
+	.docs-note--important { border-left-color: $ucsd-dark-blue; }
+	.docs-note--warning,
 	.docs-note--caution {
 		border-left-color: $ucsd-yellow;
 	}
@@ -96,6 +113,14 @@ $ucsd-dark-gray: #484949;
 			background: $ucsd-sand;
 			color: $ucsd-dark-blue;
 		}
+	}
+
+	// Generated in-page table of contents. .navbar-list is Decorator's own
+	// sidebar list class; this only adds depth indentation to it, scoped
+	// to the canvas like everything else here.
+	.docs-toc__l3 > a {
+		padding-left: 18px;
+		font-size: 14px;
 	}
 
 	// h3-h6 carry no brand typography outside a Decorator module wrapper --

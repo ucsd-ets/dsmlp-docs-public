@@ -17,6 +17,6 @@ mapping and the known upstream defects.
 
 ## Start here
 
-- [Accounts &amp; Access]({{ '/docs/getting-started/accounts/' | relative_url }})
+- [Accounts and Access]({{ '/docs/getting-started/accounts/' | relative_url }})
 - [Launching a Container]({{ '/docs/getting-started/launch/' | relative_url }})
 - [DSMLP overview]({{ '/docs/clusters/dsmlp/' | relative_url }})

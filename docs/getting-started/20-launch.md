@@ -1,7 +1,6 @@
----
-title: Launching a Container
-subhead: Pod launch scripts, resource flags, and lifetime.
----
+# Launching a Container
+
+Pod launch scripts, resource flags, and lifetime.
 
 ## The launch scripts
 
@@ -14,4 +13,7 @@ launch-scipy-ml.sh -g 1 -c 4 -m 16
 - `-g` — number of GPUs
 - `-c` — CPU cores
 - `-m` — memory in GB
-- `-i` — a specific container image
+
+## Pod lifetime
+
+Pods are reclaimed after six hours.

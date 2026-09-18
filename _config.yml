@@ -20,15 +20,14 @@ sass:
   style: compressed
   sourcemap: never
 
-defaults:
-  - scope:
-      path: "docs"
-    values:
-      layout: two-column
-
+# docs/ is raw Markdown with no front matter, so Jekyll would otherwise
+# copy it through as static files. _plugins/vanilla_docs.rb reads it from
+# disk and generates real pages from it, so the raw tree is excluded here.
 exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - DECORATOR.md
+  - docs
   - vendor
   - node_modules

@@ -1,23 +1,25 @@
----
-title: Accounts & Access
-subhead: Getting an account and connecting for the first time.
----
+# Accounts and Access
+
+Getting an account and connecting for the first time.
 
 ## Requesting access
 
 Access is tied to your Active Directory account. Course enrollment grants
 access automatically; research access is requested separately.
 
+### Course accounts
+
+Provisioned from the enrollment feed, usually within 24 hours of add/drop.
+
+### Research accounts
+
+Sponsored by a faculty PI.
+
 ## Connecting
 
 ```bash
 ssh your-username@dsmlp-login.ucsd.edu
 ```
-
-<div class="docs-note docs-note--caution" markdown="1">
-Home directories are **not** backed up. Keep anything you care about in
-version control or on a backed-up share.
-</div>
 
 ## Verifying your quota
 

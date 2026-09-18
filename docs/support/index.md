@@ -1,6 +1,7 @@
----
-title: Support
-subhead: Where to get help.
----
+# Support
 
-File a ticket with ETS, or reach the team on the campus Slack workspace.
+Where to get help.
+
+## Filing a ticket
+
+File with ETS through the service portal.
