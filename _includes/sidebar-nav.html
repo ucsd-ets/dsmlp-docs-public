@@ -1,0 +1,24 @@
+{%- comment -%}
+  CANVAS. The .sidebar-section / .main-content-nav block is inside
+  main#main-content, so it is generated from _data/navigation.yml rather
+  than hand-maintained per page.
+{%- endcomment -%}
+<section class="col-xs-12 col-md-3 sidebar-section">
+	<article class="main-content-nav" role="navigation">
+{%- assign cur = page.url -%}
+{%- for item in site.data.navigation -%}
+{%- if item.children -%}
+{%- if cur contains item.url and item.url != '/' %}
+		<h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+		<ul class="navbar-list">
+{%- for child in item.children %}
+			<li class="{% if cur == child.url %}expanded active{% else %}collapsed{% endif %}">
+				<a href="{{ child.url | relative_url }}">{{ child.title }}</a>
+			</li>
+{%- endfor %}
+		</ul>
+{%- endif -%}
+{%- endif -%}
+{%- endfor %}
+	</article>
+</section>

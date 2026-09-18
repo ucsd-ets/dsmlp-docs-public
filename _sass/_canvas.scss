@@ -1,0 +1,116 @@
+// Site-authored styles. EVERY rule in here must be scoped under the canvas
+// selector.
+//
+// Why: the Decorator shell and the canvas share the whole Bootstrap 3
+// vocabulary (.btn, .container, .row, .form-control, .input-group). A bare
+// `.input-group { ... }` reaches into the drawer search without ever naming
+// a chrome class. Scoping is the only thing that keeps site CSS off the shell.
+//
+// Also: do NOT set a background on html, body, :root or $canvas, and do not
+// use full-bleed tricks (box-shadow 0 0 0 100vmax, clip-path inset(0 -100vmax),
+// width: 100vw, margin: 0 calc(50% - 50vw)). The white page ground belongs to
+// the Decorator.
+
+$canvas: "main#main-content";
+
+// UCSD brand colors, lifted from Decorator's app/styles/partials/_custom-variables.scss.
+// Safe to redeclare here because these values only ever get applied inside the canvas.
+$ucsd-blue: #00629b;
+$ucsd-dark-blue: #182b49;
+$ucsd-navy-active: #004268;
+$ucsd-gray: #747678;
+$ucsd-yellow: #ffcd00;
+$ucsd-sand: #f5f0e6;
+$ucsd-dark-gray: #484949;
+
+#{$canvas} {
+
+	// Documentation code blocks. Bootstrap 3 styles <pre>/<code>, the
+	// Decorator does not repaint them, so this is ours to define.
+	pre {
+		background: #f7f7f9;
+		border: 1px solid #e1e1e8;
+		border-radius: 0;
+		padding: 12px 16px;
+		font-size: 14px;
+		line-height: 1.5;
+		overflow-x: auto;
+	}
+
+	code {
+		background: $ucsd-sand;
+		color: $ucsd-dark-blue;
+		border-radius: 0;
+		padding: 2px 5px;
+	}
+
+	pre code {
+		background: transparent;
+		color: inherit;
+		padding: 0;
+	}
+
+	// Kramdown emits <div class="highlight"><pre>…; keep it flush.
+	.highlight {
+		margin-bottom: 18px;
+
+		pre {
+			margin-bottom: 0;
+		}
+	}
+
+	// A callout that does NOT use Bootstrap's -info/-warning/-danger
+	// contextual classes. Those have zero rules in Decorator's base.css,
+	// so they render in stock Bootstrap teal/yellow/red on a UCSD page.
+	.docs-note {
+		border-left: 4px solid $ucsd-blue;
+		background: $ucsd-sand;
+		padding: 12px 16px;
+		margin: 0 0 18px;
+
+		> :last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.docs-note--caution {
+		border-left-color: $ucsd-yellow;
+	}
+
+	// Tables in docs. Kramdown emits a bare <table> with no class, so style
+	// the element; .table is included for hand-written Bootstrap markup.
+	// Scoping is what keeps either off the shell.
+	table,
+	.table {
+		width: 100%;
+		margin-bottom: 18px;
+
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px 12px;
+			text-align: left;
+		}
+
+		th {
+			background: $ucsd-sand;
+			color: $ucsd-dark-blue;
+		}
+	}
+
+	// h3-h6 carry no brand typography outside a Decorator module wrapper --
+	// base.css only sets color/weight/line-height for them. Give docs
+	// subheads an explicit, on-brand treatment instead of inheriting
+	// Bootstrap's 24px default.
+	h3 {
+		font-size: 22px;
+		color: $ucsd-dark-blue;
+		margin-top: 28px;
+	}
+
+	h4 {
+		font-size: 18px;
+		color: $ucsd-dark-gray;
+		margin-top: 22px;
+	}
+}

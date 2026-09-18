@@ -1,0 +1,12 @@
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+node_modules/
+
+# Human-owned baseline/exception files for the Decorator chrome gate.
+# These SHOULD be committed once a human records them — listed here only
+# as a reminder that they are not agent-generated.
+# chrome-contract.local.json
+# chrome-regions.local.json
+# chrome-styling.local.json

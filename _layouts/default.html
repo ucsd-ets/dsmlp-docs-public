@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+	<title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="robots" content="index,follow,noarchive">
+	<meta name="ORGANIZATION" content="University of California, San Diego">
+	<meta name="SITE" content="{{ site.title }}">
+	<meta name="PAGETITLE" content="{{ page.title | default: site.title }}">
+	<meta name="DESCRIPTION" content="{{ page.description | default: site.description }}">
+
+	{% include decorator/head-assets.html %}
+
+	<!-- Begin site-specific CSS files -->
+	<link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+	<!-- End site-specific CSS files -->
+</head>
+
+<body>
+
+	{% include decorator/header.html %}
+
+	<main class="layout-main" id="main-content" role="main">
+		{{ content }}
+	</main>
+
+	{% include decorator/footer.html %}
+
+	{% include decorator/scripts.html %}
+
+</body>
+
+</html>

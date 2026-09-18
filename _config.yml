@@ -1,0 +1,34 @@
+title: DSMLP Documentation
+title_short: DSMLP
+description: Documentation for UC San Diego's Data Science / Machine Learning Platform and related services.
+url: https://dsmlp-docs.ucsd.edu
+baseurl: ""
+feedback_email: ets-docs@ucsd.edu
+
+# Pretty URLs: docs/getting-started/accounts/index.html rather than
+# accounts.html, so _data/navigation.yml and in-page links can use
+# trailing-slash paths consistently.
+permalink: pretty
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Jekyll 4 + jekyll-sass-converter 3.x (Dart Sass).
+sass:
+  style: compressed
+  sourcemap: never
+
+defaults:
+  - scope:
+      path: "docs"
+    values:
+      layout: two-column
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - node_modules

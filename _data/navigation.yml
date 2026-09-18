@@ -1,0 +1,30 @@
+# Top-level site navigation.
+#
+# These <li> links are CANVAS-equivalent under the UCSD Decorator chrome
+# contract: contracts/chrome-regions.json marks the drawer's ul.navmenu-nav
+# and the navbar's ul.nav.navbar-nav as `ignoreChildrenOf`, so the <ul>
+# elements are chrome but the <li> links inside them belong to the site.
+# Edit links here; never edit the surrounding markup in
+# _includes/decorator/header.html.
+
+- title: Home
+  url: /
+
+- title: Getting Started
+  url: /docs/getting-started/
+  children:
+    - title: Accounts & Access
+      url: /docs/getting-started/accounts/
+    - title: Launching a Container
+      url: /docs/getting-started/launch/
+
+- title: Clusters
+  url: /docs/clusters/
+  children:
+    - title: DSMLP
+      url: /docs/clusters/dsmlp/
+    - title: GPU Scheduling
+      url: /docs/clusters/gpu/
+
+- title: Support
+  url: /docs/support/
