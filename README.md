@@ -57,6 +57,15 @@ Read [`DECORATOR.md`](DECORATOR.md). Short version:
 - Site CSS must be scoped under the canvas selector. An unscoped
   `.btn { }` reaches into the campus chrome.
 
+## Why Jekyll
+
+[`SSG-OPTIONS.md`](SSG-OPTIONS.md) compares this setup against MkDocs and
+Docusaurus, measured with UCSD's own chrome integrity gate. Short version:
+MkDocs with a custom theme is a viable 1–2 day port that would delete the
+custom generator; Docusaurus is blocked, because its Infima CSS framework
+redefines `.row`, `.container`, `.navbar`, `.footer` and `.dropdown` — the
+same class names the Decorator chrome is built on.
+
 ## Deployment
 
 Pushes to `main` build and deploy via `.github/workflows/pages.yml`.
