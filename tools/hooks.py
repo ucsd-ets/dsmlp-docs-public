@@ -11,6 +11,8 @@ inside one at every [!TYPE] paragraph, or the second and third callout get
 silently swallowed into the first.
 """
 
+import json
+import pathlib
 import re
 import unicodedata
 
@@ -76,13 +78,38 @@ _HTML_TAG = re.compile(r"<[!/a-z].*?>", re.I)
 _STRIP_PUNCT = re.compile(r"[^\w\s-]", re.UNICODE)
 
 
+# Ids the Decorator chrome owns. A canvas heading that slugs to one of these
+# collides with the shell, and the shell wins: base.min.css carries
+# `#search{position:absolute!important}` for its own search panel, so a page
+# with an `# Search` heading had its <h1> yanked out of flow and the body text
+# rendered underneath it. Measured on this site's own /search/ page.
+#
+# Covers the template's ids plus the Cascade CMS variants, since a page that
+# renders correctly here should not break if the chrome is ever swapped for
+# the CMS-emitted one.
+CHROME_IDS = frozenset({
+    "main-content", "uc-emergency", "navbar", "search", "q", "search-scope",
+    "cse-site-search", "cse-search-box", "search-m", "q-m", "search-scope-m",
+    "search-term-label", "tdr_login", "tdr_footer_feedback",
+})
+
+# Prefix applied to a heading id that would otherwise collide. This is the one
+# place the site deliberately diverges from GitHub's anchors: a link written as
+# `#search` will not resolve here. `mkdocs build --strict` and
+# tools/check-links.py both fail on such a link, so it cannot pass unnoticed.
+COLLISION_PREFIX = "doc-"
+
+
 def github_slugify(value, separator="-"):
-    """Slugify a heading the way github-slugger does."""
+    """Slugify a heading the way github-slugger does, avoiding chrome ids."""
     text = unicodedata.normalize("NFKC", str(value))
     text = _HTML_TAG.sub("", text)
     text = text.strip().lower()
     text = _STRIP_PUNCT.sub("", text)
-    return text.replace(" ", separator)
+    slug = text.replace(" ", separator)
+    if slug in CHROME_IDS:
+        return COLLISION_PREFIX + slug
+    return slug
 
 
 def on_config(config):
@@ -124,3 +151,40 @@ def _figure(match):
 
 def _mark_figures(html):
     return FIGURE.sub(_figure, html)
+
+
+# --------------------------------------------------------------------------
+# Search index cleanup
+# --------------------------------------------------------------------------
+#
+# `toc` is configured with permalink: true, which appends a pilcrow anchor to
+# every heading. Useful on the page (CSS hides it until hover), but the search
+# plugin indexes rendered text, so the character lands in the index and then in
+# the result summaries a reader sees:
+#
+#     "Datahub & DSMLP Documentation ¶ This is the documentation set for ..."
+#
+# Measured on this corpus: 49 of 471 entries. Titles are unaffected.
+#
+# Stripping it here rather than in on_page_content keeps the anchors in the
+# published HTML, which is the point of having them.
+
+PERMALINK_CHARS = "¶§\U0001f517"
+_PERMALINK_RUN = re.compile(r"\s*[" + PERMALINK_CHARS + r"]\s*")
+
+
+def on_post_build(config, **kwargs):
+    index_path = pathlib.Path(config["site_dir"]) / "search" / "search_index.json"
+    if not index_path.is_file():
+        return
+
+    data = json.loads(index_path.read_text(encoding="utf-8"))
+    cleaned = 0
+    for doc in data.get("docs", []):
+        for field in ("text", "title"):
+            value = doc.get(field)
+            if value and any(c in value for c in PERMALINK_CHARS):
+                doc[field] = _PERMALINK_RUN.sub(" ", value).strip()
+                cleaned += 1
+    if cleaned:
+        index_path.write_text(json.dumps(data), encoding="utf-8")

@@ -72,6 +72,13 @@ tools/import-docs.py     re-import the upstream drafts
 tools/check-links.py     dead link/anchor check over the built HTML
 ```
 
+## Search
+
+Site search is lunr, in the canvas: a box in the sidebar and results on
+`/search/`. It is separate from the two Decorator search boxes in the header,
+which search all of UC San Diego. Only `/search/` loads the search index, so
+it costs nothing on the other pages. See [`AUTHORING.md`](AUTHORING.md#search).
+
 ## Before you change anything visual
 
 Read [`DECORATOR.md`](DECORATOR.md). Short version:

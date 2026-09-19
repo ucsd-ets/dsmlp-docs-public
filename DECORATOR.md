@@ -150,15 +150,57 @@ offcanvas drawer toggles and clones as designed, `.row` computes to `block`
 horizontal scroll. Link check over the built HTML: 0 dead links, 0 dead
 anchors across 48 pages.
 
-MkDocs' bundled lunr search is disabled: enabling it as-is produced a tier 4
-finding, and the chrome already owns `#search`, `#q` and `#search-scope`. An
-in-site search needs its own UI inside the canvas.
+In-site search is lunr, in the canvas, with its own UI — the chrome's two
+search boxes are untouched and still search all of UC San Diego. Enabling it
+surfaced a real instance of the risk this contract describes: the page heading
+`# Search` auto-slugged to `id="search"`, which Decorator's `base.min.css`
+absolutely positions for its own search panel, tearing the `<h1>` out of flow.
+Heading slugs that would land on a chrome-owned id are now prefixed. The gate's
+one remaining tier 4 finding against `search/lunr.js` is a false positive and
+needs a human-written exception — see AUTHORING.md.
+
+## Deviations from the shipped template
+
+Three, all deliberate and all matching what live campus sites serve:
+
+1. **Header and footer logo** — the template ships
+   `http://cdn.ucsd.edu/developer/decorator/5.0.2/img/…`, an `http://` URL under
+   a `5.0.2` directory inside a package versioned `5.0.4`. Mixed content on an
+   HTTPS page. Raised to the path production serves.
+2. **Navbar search action** — the template's is `http://act.ucsd.edu/…` where
+   the drawer's is `https://`. A mixed-content form submission, browser-blocked.
+3. **Footer links** — the template ships only "Terms & Conditions" and
+   "Feedback". Measured 2026-09 against live sites, `edtech.ucsd.edu` and
+   `developer.ucsd.edu` both publish four: Accessibility, Privacy, Terms of Use
+   and Feedback. The template's pair is stale, and an Accessibility link is
+   close to standard on a UC page. Approved by the site owner as a chrome
+   change rather than made on a tool's initiative.
+
+## How this compares to a live Cascade site
+
+Measured 2026-09 against `edtech.ucsd.edu` with the same gate:
+
+| | This site | edtech.ucsd.edu |
+|---|---|---|
+| Gate result | 6 findings, all tier 2 baseline | 12 — **2 tier 1**, 6 tier 2, **4 tier 3** |
+| `title-logo` href | `https://www.ucsd.edu` | `http://www.ucsd.edu` |
+| Chrome across pages | identical | differs (`tabindex`, logo `alt`) |
+| Site search | none | `/search/index.html` (Cascade) |
+
+edtech is the Cascade CMS variant: it emits `ul.msearch` and the 768px id-swap
+described in the kit, drops `.layout-login`, and uses `name="as_sitesearch"` in
+the navbar where the template uses `search-scope` — which is what fails tier 3.
+Its chrome also drifts page to page, which a generated site cannot do.
+
+What it has that this site does not is Cascade infrastructure: a per-site
+search collection and a `/search/index.html` to post to.
 
 ## Open decisions
 
 1. **Record the chrome golden baseline.** Until a human does, CI's gate step is
    `continue-on-error`.
-2. **In-site search**, per above.
+2. **Write `chrome-styling.local.json`** for the lunr false positive, so the
+   gate can run clean. AUTHORING.md has the exact entry.
 3. **Whether to adopt the kit wiring** (`npx ucsd-decorator-kit add --with-ci`),
    which adds Dependabot on `ucsd-decorator-v5` plus the kit. Recommended,
    since the CDN moves without notice.

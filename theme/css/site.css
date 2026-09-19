@@ -262,3 +262,66 @@ main#main-content .docs-figure {
 	padding: 0 4px;
 	cursor: help;
 }
+
+/* ---- Site search ---------------------------------------------------- *
+ * This is the site's own search, not the Decorator's. The chrome ships two
+ * search boxes of its own (drawer and navbar) which post to the campus-wide
+ * redirect; those are chrome and are untouched. Everything here is scoped
+ * under the canvas like the rest of this file.
+ */
+
+main#main-content .docs-search {
+	display: flex;
+	margin-bottom: 18px;
+}
+
+main#main-content .docs-search__input {
+	border-radius: 0;
+	box-shadow: none;
+	height: 38px;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+main#main-content .docs-search__input:focus {
+	border-color: var(--ucsd-blue);
+	box-shadow: 0 0 0 2px rgba(0, 98, 155, .18);
+}
+
+main#main-content .docs-search__submit {
+	border-radius: 0;
+	height: 38px;
+	margin-left: -1px;
+	flex: 0 0 auto;
+}
+
+/* On the search page the field is the primary control, so give it room
+ * and drop the button -- submission is live as you type. */
+main#main-content .docs-search--page {
+	margin: 18px 0 24px;
+}
+
+main#main-content .docs-search--page .docs-search__input {
+	height: 46px;
+	font-size: 18px;
+}
+
+main#main-content .docs-search-results article {
+	padding: 14px 0;
+	border-bottom: 1px solid var(--docs-rule);
+}
+
+main#main-content .docs-search-results article:first-child {
+	border-top: 1px solid var(--docs-rule);
+}
+
+main#main-content .docs-search-results h3 {
+	margin: 0 0 4px;
+	font-size: 18px;
+}
+
+main#main-content .docs-search-results p {
+	margin: 0;
+	color: var(--ucsd-dark-gray);
+	font-size: 15px;
+}

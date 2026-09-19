@@ -1,9 +1,16 @@
 {#
   Decorator 5 CHROME -- footer. Pinned region is `footer.footer > div.container`.
 
-  .footer-copyright-year is intentionally EMPTY: the CDN base.min.js fills it
-  at runtime. Do not emit a build-time year -- it goes stale AND it changes
-  the pinned region's hash.
+  .footer-copyright-year is intentionally EMPTY: base.min.js self-invokes
+  initCopyright() and fills it at runtime (verified in a browser). Do not emit
+  a build-time year -- it goes stale AND it changes the pinned region's hash.
+
+  The link list deviates from ucsd-decorator-v5's template, which ships only
+  "Terms & Conditions" and "Feedback". Live campus sites publish four:
+  edtech.ucsd.edu and developer.ucsd.edu both carry Accessibility, Privacy,
+  Terms of Use and Feedback, so the template's pair is stale. Adding the two
+  missing links is a chrome change and was approved by the site owner rather
+  than made on a tool's initiative -- see DECORATOR.md.
 #}
 <footer class="footer">
 		<div class="container">
@@ -19,7 +26,9 @@
 						</span>
 					</p>
 					<ul class="footer-links">
-						<li><a href="https://www.ucsd.edu/_about/legal/index.html">Terms &amp; Conditions</a></li>
+						<li><a href="https://accessibility.ucsd.edu/">Accessibility</a></li>
+						<li><a href="https://ucsd.edu/about/privacy.html">Privacy</a></li>
+						<li><a href="https://ucsd.edu/about/terms-of-use.html">Terms of Use</a></li>
 						<li><a href="mailto:{{ config.extra.feedback_email }}">Feedback</a></li>
 					</ul>
 				</div>

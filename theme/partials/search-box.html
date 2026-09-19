@@ -1,0 +1,22 @@
+{#
+  CANVAS. Site search entry point, in the sidebar on every page.
+
+  This is NOT the Decorator's search box. The chrome ships two of its own
+  (drawer and navbar), both owning #search / #q / #search-scope and both
+  posting to the campus-wide redirect at act.ucsd.edu. Those are chrome and
+  are left exactly as shipped; this searches only this site.
+
+  It is a plain GET form to /search/, so it works with JavaScript disabled --
+  the results page is what needs JS. That also keeps the 816KB search index
+  off every other page: theme/main.html loads the search scripts only on
+  /search/ itself.
+#}
+<form class="docs-search" action="/search/" method="get" role="search">
+	<label class="sr-only" for="docs-search-input">Search this site</label>
+	<input class="form-control docs-search__input" type="search" id="docs-search-input"
+		name="q" placeholder="Search this site&hellip;" autocomplete="off">
+	<button class="btn btn-default docs-search__submit" type="submit">
+		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		<span class="sr-only">Search</span>
+	</button>
+</form>
