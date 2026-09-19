@@ -28,6 +28,14 @@
 
 	<!-- Site-specific CSS -->
 	<link rel="stylesheet" href="/css/site.css">
+
+	{%- if is_search_page %}
+	{#
+	  Routes a campus-scoped query straight back out to the hosted search API.
+	  In <head> so it leaves before the page fetches the lunr index.
+	#}
+	<script src="/js/search-scope.js"></script>
+	{%- endif %}
 </head>
 
 <body>
@@ -59,6 +67,22 @@
 					</form>
 					<div id="mkdocs-search-results" class="docs-search-results"
 						data-no-results-text="No results. Try fewer or more general words."></div>
+
+					{#
+					  Searching this site needs JavaScript -- lunr runs in the
+					  browser. The campus scopes do not, but they now route
+					  through this page, so without JS they would stop here
+					  silently. Say so, and give a way out.
+					#}
+					<noscript>
+						<div class="docs-note docs-note--warning">
+							<p class="docs-note__label">JavaScript required</p>
+							<p>Searching this site needs JavaScript, which is turned off in
+								this browser. You can still
+								<a href="https://www.ucsd.edu/search">search all UC San Diego sites</a>,
+								or browse the documentation from the menu above.</p>
+						</div>
+					</noscript>
 					{%- endif %}
 
 					{%- if page.meta.source_url or config.repo_url %}

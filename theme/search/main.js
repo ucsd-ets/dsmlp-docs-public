@@ -25,14 +25,12 @@ var base_url = base_url || '.';
 var min_search_length = 3;
 
 function getSearchTermFromLocation () {
-  var sPageURL = window.location.search.substring(1);
-  var sURLVariables = sPageURL.split('&');
-  for (var i = 0; i < sURLVariables.length; i++) {
-    var sParameterName = sURLVariables[i].split('=');
-    if (sParameterName[0] == 'q') {
-      return decodeURIComponent(sParameterName[1].replace(/\+/g, '%20'));
-    }
-  }
+  // FIX 3: upstream reads `q` only. The Decorator's search form posts
+  // `search-term` -- a reserved name the hosted search API reads document-wide,
+  // so it cannot be renamed to `q`. Both are accepted; `q` keeps older links
+  // and hand-typed URLs working.
+  var params = new URLSearchParams(window.location.search);
+  return params.get('search-term') || params.get('q') || undefined;
 }
 
 function joinUrl (base, path) {

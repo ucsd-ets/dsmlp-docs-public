@@ -264,10 +264,10 @@ main#main-content .docs-figure {
 }
 
 /* ---- Site search ---------------------------------------------------- *
- * This is the site's own search, not the Decorator's. The chrome ships two
- * search boxes of its own (drawer and navbar) which post to the campus-wide
- * redirect; those are chrome and are untouched. Everything here is scoped
- * under the canvas like the rest of this file.
+ * The results UI on /search/. The search INPUT that reaches it now lives in
+ * the Decorator's own search box, which is chrome and carries no styling from
+ * this file -- tier 4 forbids it, and the shell already styles that control.
+ * Everything here is the canvas-side results page.
  */
 
 main#main-content .docs-search {
@@ -286,13 +286,6 @@ main#main-content .docs-search__input {
 main#main-content .docs-search__input:focus {
 	border-color: var(--ucsd-blue);
 	box-shadow: 0 0 0 2px rgba(0, 98, 155, .18);
-}
-
-main#main-content .docs-search__submit {
-	border-radius: 0;
-	height: 38px;
-	margin-left: -1px;
-	flex: 0 0 auto;
 }
 
 /* On the search page the field is the primary control, so give it room

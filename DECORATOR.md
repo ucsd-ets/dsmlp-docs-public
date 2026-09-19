@@ -150,8 +150,7 @@ offcanvas drawer toggles and clones as designed, `.row` computes to `block`
 horizontal scroll. Link check over the built HTML: 0 dead links, 0 dead
 anchors across 48 pages.
 
-In-site search is lunr, in the canvas, with its own UI — the chrome's two
-search boxes are untouched and still search all of UC San Diego. Enabling it
+In-site search is lunr, wired into the Decorator's own search box. Enabling it
 surfaced a real instance of the risk this contract describes: the page heading
 `# Search` auto-slugged to `id="search"`, which Decorator's `base.min.css`
 absolutely positions for its own search panel, tearing the `<h1>` out of flow.
@@ -169,7 +168,14 @@ Three, all deliberate and all matching what live campus sites serve:
    HTTPS page. Raised to the path production serves.
 2. **Navbar search action** — the template's is `http://act.ucsd.edu/…` where
    the drawer's is `https://`. A mixed-content form submission, browser-blocked.
-3. **Footer links** — the template ships only "Terms & Conditions" and
+3. **Search form** — `action` points at this site's own `/search/`, a
+   "This Site" scope option is added, the term input and scope select carry
+   renamed ids, and both controls have `sr-only` labels. `protected-regions.md`
+   lists the first three as site-specific and expected to differ, and calls the
+   missing labels out as wanting a fix. Tier 3 passes unchanged. The panel's
+   `id="search"` and the `search-term` / `search-scope` names are untouched —
+   all three are load-bearing document-wide.
+4. **Footer links** — the template ships only "Terms & Conditions" and
    "Feedback". Measured 2026-09 against live sites, `edtech.ucsd.edu` and
    `developer.ucsd.edu` both publish four: Accessibility, Privacy, Terms of Use
    and Feedback. The template's pair is stale, and an Accessibility link is
