@@ -102,45 +102,84 @@ footnotes — all of which fail without it.
 
 ## Search
 
-In-site search is lunr, via MkDocs' `search` plugin. The Decorator chrome ships
-two search boxes of its own — drawer and navbar — which post to the campus-wide
-redirect at `act.ucsd.edu`. Those are chrome and are untouched. This site's
-search is separate and lives in the canvas.
+Site search is lunr, wired into **the Decorator's own search box** — the one in
+the header, on every page. Its scope selector offers three choices: *This Site*
+(the default, served by lunr) and the two campus scopes, which route back out
+to the hosted search API.
 
-- **The box in the sidebar** (`theme/partials/search-box.html`) is a plain GET
-  form to `/search/`. It works without JavaScript.
-- **`/search/`** renders the results. Only that page loads the search assets, so
-  the 816KB index is fetched when somebody searches rather than on every page
-  view. MkDocs' own themes load it everywhere.
-- **`theme/search/main.js`** overrides the plugin's copy. A file of that name in
-  the theme wins, which is how the two upstream bugs below are fixed.
+- **The chrome form** posts `search-scope` and `search-term` to `/search/`.
+- **`theme/js/search-scope.js`** runs in `<head>` on `/search/` and sends a
+  campus-scoped query straight to `act.ucsd.edu`, before the page fetches the
+  ~800KB index it would not use.
+- **`/search/`** renders lunr results for the site scope. Only that page loads
+  the search assets; the other 48 pages carry none of it.
+- **`theme/search/main.js`** overrides the plugin's copy — a file of that name
+  in the theme wins — which is how the upstream bugs below are fixed.
 
-Four things needed fixing to make it work, all verified in a browser:
+### Why this is not a chrome violation
 
-**A heading slug collided with a chrome id — and the chrome won.** The page
-`# Search` auto-slugged to `id="search"`, and Decorator's `base.min.css` carries
-`#search { position: absolute !important }` for its own search panel. The `<h1>`
-was yanked out of flow and the body text rendered underneath it. `tools/hooks.py`
-now prefixes any heading slug that would land on a chrome-owned id (`search`,
-`q`, `navbar`, `main-content`, …) with `doc-`. This is the one place the site
-deliberately diverges from GitHub's anchors; a link written as `#search` will
-not resolve, and `--strict` fails on it rather than letting it pass.
+`protected-regions.md` lists, for this form, what is "site-specific, expected to
+differ": the `action` ("sites point at their own search index rather than the
+campus redirector"), the `option` values ("a site index adds its own scope"),
+and the ids on the term input and scope select ("safe to rename"). All three are
+what this change uses. The gate confirms it: tier 3 passes unchanged.
+
+What is **not** changed, and must not be:
+
+| Reserved | Why |
+|---|---|
+| `id="search"` on the panel | `base.min.css` keys the drawer's mobile layout on it; rename or strip it and the drawer search stops rendering below 768px |
+| `name="search-term"` | the hosted search API reads it document-wide |
+| `name="search-scope"` | same, and tier 3 pins it explicitly |
+| the duplicate `id="search"` across both blocks | intended by the Decorator; "fixing" it has shipped a regression before |
+
+The ids **were** renamed, to `site-search-term-drawer` / `-navbar` and
+`site-search-scope-drawer` / `-navbar`. Both blocks previously carried
+`id="q"`, so a `<label for>` could only ever bind to the drawer's copy. This
+site is the ZIP shape (no `ul.msearch`), so
+`toggleIdsAndClassesBasedOnScreenWidth()` never runs here and the rename drops
+nothing out of a swap.
+
+The `sr-only` labels are new. The template ships this form with no label at
+all, which `protected-regions.md` calls out as wanting a fix on both shapes.
+
+Verified at both viewports: below 768px with the drawer open, the panel is
+`#search`, `display: block`, and 49px tall — the floor that document gives as
+the "did this collapse" tripwire for a working drawer search.
+
+### Known trade-off
+
+Campus-scope search now depends on JavaScript, because it routes through this
+site. It did not before. `/search/` carries a `<noscript>` saying so and linking
+to `www.ucsd.edu/search`.
+
+### Four upstream bugs, fixed in the override
 
 **Titles were double-escaped.** MkDocs writes titles into `search_index.json`
 already HTML-escaped — 102 of 471 entries here contain `&amp;` — and upstream's
 `main.js` escapes again, so results read "Service Units &amp;amp; Budgets".
-Summaries are stored raw and still need escaping. Fixed in `theme/search/main.js`.
+Summaries are stored raw and still need escaping.
 
-**The permalink pilcrow was indexed.** `toc` is configured with
-`permalink: true`, and the search plugin indexes rendered text, so summaries
-began "Datahub & DSMLP Documentation ¶ This is the documentation set for…".
-49 of 471 entries. `on_post_build` in `tools/hooks.py` strips it from the index
-after the plugin writes it, which keeps the anchors in the published HTML.
+**Upstream reads only `q`.** The chrome form posts `search-term`, a reserved
+name that cannot be renamed to `q`. Both are accepted.
 
-**Upstream dereferences its DOM nodes without guards.** `displayResults` and
-`initSearch` both assume `#mkdocs-search-results` and `#mkdocs-search-query`
-exist. The theme only loads the script where they do, and the override adds
-guards so that stays a choice rather than a requirement.
+**The permalink pilcrow was indexed.** `toc` runs with `permalink: true` and the
+plugin indexes rendered text, so 49 of 471 summaries began "Datahub & DSMLP
+Documentation ¶ …". `on_post_build` in `tools/hooks.py` strips it from the index
+after the plugin writes it, keeping the anchors in the published HTML.
+
+**Unguarded DOM lookups.** `displayResults` and `initSearch` both assume their
+elements exist. Guards added.
+
+### A heading slug once collided with a chrome id
+
+Worth keeping in mind when adding pages. The page heading `# Search`
+auto-slugged to `id="search"`, and Decorator's `base.min.css` carries
+`#search { position: absolute !important }` for its own search panel — the
+`<h1>` was torn out of flow and the body text rendered underneath it.
+`tools/hooks.py` now prefixes any heading slug landing on a chrome-owned id with
+`doc-`. That is the one place the site diverges from GitHub's anchors, and
+`--strict` fails on a link relying on the old form.
 
 ### The tier 4 finding is a false positive
 

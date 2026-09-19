@@ -1,5 +1,9 @@
 {#
-  CANVAS. Search box, section nav, and in-page contents.
+  CANVAS. Section nav and in-page contents.
+
+  The sidebar search box was removed when the Decorator's own search box was
+  wired to this site's index: two boxes doing the same job, one of them the
+  campus-standard control, is worse than one.
 
   The nav <article> is only emitted when it would have something in it --
   on a page with no sibling pages and no subheadings (the search page, for
@@ -16,8 +20,6 @@
 {%- set headings = page.toc|list -%}
 {%- set sub = headings[0].children|list if headings|length == 1 else headings -%}
 <section class="col-xs-12 col-md-3 sidebar-section">
-	{% include "partials/search-box.html" %}
-
 {%- if section.item or sub %}
 	<article class="main-content-nav" role="navigation">
 {%- if section.item %}

@@ -74,10 +74,12 @@ tools/check-links.py     dead link/anchor check over the built HTML
 
 ## Search
 
-Site search is lunr, in the canvas: a box in the sidebar and results on
-`/search/`. It is separate from the two Decorator search boxes in the header,
-which search all of UC San Diego. Only `/search/` loads the search index, so
-it costs nothing on the other pages. See [`AUTHORING.md`](AUTHORING.md#search).
+The search box in the page header searches **this site** by default, using
+lunr. Its scope selector still offers the two campus-wide scopes, which route
+out to `www.ucsd.edu/search` as before. Results render on `/search/`, which is
+the only page that loads the search index. See
+[`AUTHORING.md`](AUTHORING.md#search) — including which parts of that form are
+reserved and must not be renamed.
 
 ## Before you change anything visual
 
