@@ -1,3 +1,4 @@
+{%- set is_search_page = page and page.file and page.file.src_path in ('search.md', 'search/index.md') -%}
 <!doctype html>
 <html class="no-js" lang="en-US">
 
@@ -44,6 +45,22 @@
 				<section class="col-xs-12 col-md-9 main-section pull-right">
 					{{ page.content }}
 
+					{%- if is_search_page %}
+					{#
+					  The search UI. Ids are the plugin's own: main.js reads
+					  #mkdocs-search-query and writes #mkdocs-search-results, and
+					  dereferences BOTH without a null guard -- which is why the
+					  scripts load only here, where both exist.
+					#}
+					<form class="docs-search docs-search--page" role="search" onsubmit="return false;">
+						<label class="sr-only" for="mkdocs-search-query">Search query</label>
+						<input type="search" class="form-control docs-search__input" id="mkdocs-search-query"
+							name="q" placeholder="Search this site&hellip;" autocomplete="off" autofocus>
+					</form>
+					<div id="mkdocs-search-results" class="docs-search-results"
+						data-no-results-text="No results. Try fewer or more general words."></div>
+					{%- endif %}
+
 					{%- if page.meta.source_url or config.repo_url %}
 					<p class="docs-edit-link">
 						<a href="{{ config.repo_url }}">Suggest an edit to this page</a>
@@ -69,6 +86,18 @@
 	<script src="https://www.ucsd.edu/common/_emergency-broadcast/message.js"></script>
 	<script src="https://cdn.ucsd.edu/cms/decorator-5/scripts/vendor.min.js"></script>
 	<script src="https://cdn.ucsd.edu/cms/decorator-5/scripts/base.min.js"></script>
+
+	{%- if is_search_page %}
+	{#
+	  Search assets, on /search/ only. MkDocs' own themes load these on every
+	  page; keeping them here means the 816KB index is fetched when somebody
+	  actually searches, not on every page view. main.js needs base_url, and
+	  falls back to jQuery.getScript when Web Workers are unavailable -- jQuery
+	  is already loaded above by the Decorator chrome.
+	#}
+	<script>var base_url = {{ base_url|tojson }};</script>
+	<script src="{{ 'search/main.js'|url }}"></script>
+	{%- endif %}
 
 </body>
 

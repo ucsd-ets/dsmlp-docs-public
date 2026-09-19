@@ -1,23 +1,31 @@
 {#
-  CANVAS. Two generated lists, neither hand-maintained:
+  CANVAS. Search box, section nav, and in-page contents.
 
-    * the current section's sibling pages, from MkDocs' own `nav`
-    * an in-page table of contents, from page.toc
+  The nav <article> is only emitted when it would have something in it --
+  on a page with no sibling pages and no subheadings (the search page, for
+  one) Decorator's .main-content-nav still paints its border, so an empty
+  one renders as a stray empty box.
 
   page.toc's top level is the document's single H1, whose children are the
-  H2s. The H1 is already rendered as the page heading, so this walks
-  page.toc[0].children rather than page.toc -- otherwise the page title
-  appears in its own "On this page" list.
+  H2s. The H1 is already the page heading, so this walks toc[0].children.
 #}
+{%- set section = namespace(item=none) -%}
+{%- for item in nav -%}
+{%- if item.children and item.active -%}{%- set section.item = item -%}{%- endif -%}
+{%- endfor -%}
+{%- set headings = page.toc|list -%}
+{%- set sub = headings[0].children|list if headings|length == 1 else headings -%}
 <section class="col-xs-12 col-md-3 sidebar-section">
+	{% include "partials/search-box.html" %}
+
+{%- if section.item or sub %}
 	<article class="main-content-nav" role="navigation">
-{%- for item in nav %}
-{%- if item.children and item.active %}
+{%- if section.item %}
 {#- A section's first child is its README/index page. Linking the <h2> to it
     and dropping it from the list avoids naming the section twice. -#}
-{%- set index = item.children[0] if item.children[0].title == item.title else none %}
-{%- set entries = item.children[1:] if index else item.children %}
-		<h2>{% if index %}<a href="/{{ index.url }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</h2>
+{%- set index = section.item.children[0] if section.item.children[0].title == section.item.title else none %}
+{%- set entries = section.item.children[1:] if index else section.item.children %}
+		<h2>{% if index %}<a href="/{{ index.url }}">{{ section.item.title }}</a>{% else %}{{ section.item.title }}{% endif %}</h2>
 		<ul class="navbar-list">
 {%- for child in entries %}
 			<li class="{{ 'expanded active' if child.active else 'collapsed' }}">
@@ -26,9 +34,6 @@
 {%- endfor %}
 		</ul>
 {%- endif %}
-{%- endfor %}
-{%- set headings = page.toc|list %}
-{%- set sub = headings[0].children if headings|length == 1 else headings %}
 {%- if sub %}
 		<h2>On this page</h2>
 		<ul class="navbar-list docs-toc">
@@ -41,4 +46,5 @@
 		</ul>
 {%- endif %}
 	</article>
+{%- endif %}
 </section>

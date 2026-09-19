@@ -100,6 +100,87 @@ into the first.
 `pymdown-extensions` supplies the rest — task lists, strikethrough, autolinks,
 footnotes — all of which fail without it.
 
+## Search
+
+In-site search is lunr, via MkDocs' `search` plugin. The Decorator chrome ships
+two search boxes of its own — drawer and navbar — which post to the campus-wide
+redirect at `act.ucsd.edu`. Those are chrome and are untouched. This site's
+search is separate and lives in the canvas.
+
+- **The box in the sidebar** (`theme/partials/search-box.html`) is a plain GET
+  form to `/search/`. It works without JavaScript.
+- **`/search/`** renders the results. Only that page loads the search assets, so
+  the 816KB index is fetched when somebody searches rather than on every page
+  view. MkDocs' own themes load it everywhere.
+- **`theme/search/main.js`** overrides the plugin's copy. A file of that name in
+  the theme wins, which is how the two upstream bugs below are fixed.
+
+Four things needed fixing to make it work, all verified in a browser:
+
+**A heading slug collided with a chrome id — and the chrome won.** The page
+`# Search` auto-slugged to `id="search"`, and Decorator's `base.min.css` carries
+`#search { position: absolute !important }` for its own search panel. The `<h1>`
+was yanked out of flow and the body text rendered underneath it. `tools/hooks.py`
+now prefixes any heading slug that would land on a chrome-owned id (`search`,
+`q`, `navbar`, `main-content`, …) with `doc-`. This is the one place the site
+deliberately diverges from GitHub's anchors; a link written as `#search` will
+not resolve, and `--strict` fails on it rather than letting it pass.
+
+**Titles were double-escaped.** MkDocs writes titles into `search_index.json`
+already HTML-escaped — 102 of 471 entries here contain `&amp;` — and upstream's
+`main.js` escapes again, so results read "Service Units &amp;amp; Budgets".
+Summaries are stored raw and still need escaping. Fixed in `theme/search/main.js`.
+
+**The permalink pilcrow was indexed.** `toc` is configured with
+`permalink: true`, and the search plugin indexes rendered text, so summaries
+began "Datahub & DSMLP Documentation ¶ This is the documentation set for…".
+49 of 471 entries. `on_post_build` in `tools/hooks.py` strips it from the index
+after the plugin writes it, which keeps the anchors in the published HTML.
+
+**Upstream dereferences its DOM nodes without guards.** `displayResults` and
+`initSearch` both assume `#mkdocs-search-results` and `#mkdocs-search-query`
+exist. The theme only loads the script where they do, and the override adds
+guards so that stays a choice rather than a requirement.
+
+### The tier 4 finding is a false positive
+
+The gate reports:
+
+```
+chrome/styling/script
+  file:     search/lunr.js:1373
+  selector: function:<module>
+  - .id = ... references a protected chrome token
+```
+
+Line 1373 is `this.id = lunr.TokenSet._nextId` — lunr numbering its own internal
+token sets. It is not DOM access: lunr.js contains no DOM API calls at all (its
+`document.` occurrences are all JSDoc comments) and it runs in a Web Worker.
+The scanner sees `.id =` and cannot distinguish it from a runtime rewrite of a
+chrome element's id.
+
+Clearing it needs a reviewed exception, in `chrome-styling.local.json` at the
+repository root. **That file is human-owned — an agent must not write it**, and
+tier 4 cannot be cleared with `--accept`. A person adds:
+
+```json
+{
+  "schemaVersion": 1,
+  "allow": [
+    {
+      "file": "search/lunr.js",
+      "selector": "function:<module>",
+      "reason": "lunr.js:1373 is `this.id = lunr.TokenSet._nextId`, lunr numbering its own token sets. lunr.js makes no DOM calls and runs in a Web Worker, so it cannot reach a chrome element.",
+      "reviewOn": "2027-09-19",
+      "approvedBy": "<your name>"
+    }
+  ]
+}
+```
+
+`reviewOn` is required and the exception stops applying past that date, so the
+judgement gets revisited rather than becoming permanent.
+
 ## What CI enforces
 
 1. `mkdocs build --strict` — a broken relative link or anchor fails the build.
@@ -120,8 +201,5 @@ pages**, strict build clean.
   says the set is in draft, but it cannot say *which* claims on a given page
   are unverified — that detail lives only in the upstream notes. If per-page
   status matters for review, the upstream repo is the place to read it.
-- In-site search is not wired up. The Decorator chrome already owns `#search`,
-  `#q` and `#search-scope`, pointed at the campus-wide redirect, so a docs
-  search needs its own UI inside the canvas with different ids. MkDocs' bundled
-  lunr search is disabled in `mkdocs.yml` because enabling it as-is trips the
-  chrome gate.
+- The chrome integrity gate reports one tier 4 finding against
+  `search/lunr.js`, and it is a false positive. See "Search" below.

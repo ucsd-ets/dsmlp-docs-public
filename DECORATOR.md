@@ -150,9 +150,14 @@ offcanvas drawer toggles and clones as designed, `.row` computes to `block`
 horizontal scroll. Link check over the built HTML: 0 dead links, 0 dead
 anchors across 48 pages.
 
-MkDocs' bundled lunr search is disabled: enabling it as-is produced a tier 4
-finding, and the chrome already owns `#search`, `#q` and `#search-scope`. An
-in-site search needs its own UI inside the canvas.
+In-site search is lunr, in the canvas, with its own UI — the chrome's two
+search boxes are untouched and still search all of UC San Diego. Enabling it
+surfaced a real instance of the risk this contract describes: the page heading
+`# Search` auto-slugged to `id="search"`, which Decorator's `base.min.css`
+absolutely positions for its own search panel, tearing the `<h1>` out of flow.
+Heading slugs that would land on a chrome-owned id are now prefixed. The gate's
+one remaining tier 4 finding against `search/lunr.js` is a false positive and
+needs a human-written exception — see AUTHORING.md.
 
 ## Deviations from the shipped template
 
@@ -194,7 +199,8 @@ search collection and a `/search/index.html` to post to.
 
 1. **Record the chrome golden baseline.** Until a human does, CI's gate step is
    `continue-on-error`.
-2. **In-site search**, per above.
+2. **Write `chrome-styling.local.json`** for the lunr false positive, so the
+   gate can run clean. AUTHORING.md has the exact entry.
 3. **Whether to adopt the kit wiring** (`npx ucsd-decorator-kit add --with-ci`),
    which adds Dependabot on `ucsd-decorator-v5` plus the kit. Recommended,
    since the CDN moves without notice.
