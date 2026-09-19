@@ -1,0 +1,133 @@
+site_name: Datahub & DSMLP Documentation
+site_url: https://dsmlp-docs.ucsd.edu/
+site_description: >-
+  Documentation for UC San Diego's Datahub and Data Science & Machine Learning
+  Platform (DSMLP).
+repo_url: https://github.com/ucsd-ets/ucsd-ets.github.io
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: _site
+
+# A bespoke theme, not a Material override. The theme IS the UC San Diego
+# Decorator 5 chrome, so no third-party CSS framework loads and nothing can
+# collide with Bootstrap 3's class vocabulary. See DECORATOR.md.
+theme:
+  name: null
+  custom_dir: theme
+
+extra:
+  site_name_short: DSMLP
+  feedback_email: datahub@ucsd.edu
+
+  # Site-wide draft notice, shown on every page by
+  # theme/partials/draft-banner.html. Clear this value to remove it everywhere
+  # once the content is signed off -- there is no per-page markup to hunt down.
+  draft_banner: >-
+    This documentation is in draft and under active review. Figures for the
+    Fall 2026 GPU reservation system are not yet published, and some pages
+    describe behaviour that has not been verified against a primary source.
+    Check with us before relying on anything here.
+
+# MkDocs ships lunr.js search, which needs its own UI. The Decorator chrome
+# already owns #search, #q and #search-scope and points them at the campus-wide
+# redirect, so an in-site search has to live in the canvas with different ids.
+# Disabled until that is built -- enabling it as-is trips the chrome gate.
+plugins: []
+
+# Python-Markdown is NOT GitHub Flavored Markdown. These extensions close the
+# gap: task lists, strikethrough, autolinks and footnotes all fail without them.
+markdown_extensions:
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+      # NOTE: the GitHub-compatible slugify is installed by tools/hooks.py
+      # in on_config, not here. A `!!python/name:` reference would need the
+      # project root on PYTHONPATH, which mkdocs does not add; the hook is
+      # loaded by path and always works.
+  - tables
+  - fenced_code
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.magiclink
+  - pymdownx.superfences
+
+# GitHub alert callouts (> [!NOTE]) are not native to Python-Markdown.
+hooks:
+  - tools/hooks.py
+
+# Catch broken cross-references at build time. The imported content is densely
+# cross-linked with relative .md links and anchors, so this is the main guard
+# against a rename stranding a dozen pages. CI runs with --strict, which turns
+# every one of these into a build failure.
+# docs/images/ is an asset directory; its README documents what belongs there
+# and is deliberately not a nav page.
+not_in_nav: |
+  images/README.md
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+nav:
+  - Overview: overview.md
+  - Guides:
+      - student-in-a-course.md
+      - working-from-the-command-line.md
+      - instructor-or-ta.md
+      - student-project.md
+      - individual-researcher.md
+      - faculty-research-lab.md
+  - Access:
+      - access/README.md
+      - access/datahub-in-the-browser.md
+      - access/the-login-node.md
+      - access/remote-editor-setup.md
+      - access/when-access-starts-and-ends.md
+      - access/sign-in-and-session-problems.md
+  - Storage:
+      - workspaces-and-storage/README.md
+      - workspaces-and-storage/what-a-workspace-is.md
+      - workspaces-and-storage/your-files-and-quotas.md
+      - workspaces-and-storage/moving-and-sharing-data.md
+      - workspaces-and-storage/datasets.md
+  - Jobs:
+      - running-jobs/README.md
+      - running-jobs/job-modes-and-limits.md
+      - running-jobs/launch-sh-reference.md
+      - running-jobs/watching-your-job.md
+      - running-jobs/checkpointing.md
+      - running-jobs/kubernetes.md
+  - GPUs:
+      - gpu-access/README.md
+      - gpu-access/gpu-classes.md
+      - gpu-access/quotas-and-availability.md
+      - gpu-access/reservations.md
+      - gpu-access/service-units-and-budgets.md
+      - gpu-access/what-ends-a-session.md
+  - Environments:
+      - environments/README.md
+      - environments/standard-images.md
+      - environments/customizing-your-environment.md
+      - environments/building-a-custom-image.md
+  - Grading:
+      - grading/README.md
+      - grading/choosing-a-grading-tool.md
+      - grading/notebook-grading-workflow.md
+      - grading/grading-failures.md
+  - Reference:
+      - reference/README.md
+      - reference/error-messages.md
+      - reference/getting-help.md
+      - reference/glossary.md
+      - reference/coming-from-hpc.md
+      - reference/managing-a-group.md
+      - reference/software.md
+      - reference/policy.md
+  - Home: README.md
