@@ -1,49 +1,5 @@
 # Getting Help & What to Ask Staff For
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The contacts and the routine response target are
-> confirmed. Two things about this page are editorial decisions a reviewer should
-> confirm rather than inherit.
->
-> - **Decision needed:** the 30-minute response and 8-hour resolution targets are
->   **instructor-facing commitments** and are labelled as such below. This page is
->   linked from student, project and researcher pages, so those readers will see
->   the tier even though it is not offered to them. Either the labelling is
->   enough, or the tier belongs only on
->   [Teaching with Datahub & DSMLP](../instructor-or-ta.md) and this page should
->   point there instead. Please settle it before publishing.
-> - **Missing, by decision:** what escalation actually does outside business
->   hours. The rubric is internal and is not published here; the page says only
->   that escalation exists and runs through the Service Desk, which is what a
->   user needs in order to ask for it.
-> - **Check before publishing:** whether to print the Service Desk telephone
->   number. `KB0034559` publishes it; this page gives the web route only, on the
->   grounds that a ticket is better for us and better for the reporter.
-> - **Check before publishing:** the 1:1 Consultation allowance. Six hours per
->   course per term is stated *at Spring 2026 staffing levels* and is expected to
->   move; the figure and its qualifier should be re-checked each year.
-> - **Missing:** turnaround on an administrative request. No source states how
->   long a quota, tier, class or budget request takes, whether any of them is
->   routinely refused, or what a refusal looks like. A student deciding on
->   Thursday whether to ask or to re-plan cannot use this page to make that
->   decision.
->   <!-- FIGURE: typical turnaround for a quota, tier, class or budget request -->
-> - **Decision needed:** whether a student in a course may request a disk quota
->   increase directly.
->   [Directories, Quotas & Cleaning Up](../workspaces-and-storage/your-files-and-quotas.md#asking-for-more-space)
->   says students go through their instructor, who raises it on the course's
->   existing ticket; `KB0030587` tells the reader to reply to the course ticket
->   *or* email `datahub@ucsd.edu`. This page follows the former and should be
->   corrected if that is wrong.
-> - **Missing:** whether any request is bounded by a published policy — a maximum
->   quota, a maximum SU grant, a maximum reservation length obtainable by request.
->   The 32 CPU / 128 GB tier is the only ceiling we can name.
-> - **Check before publishing:** that a workspace's own reservation length cap is
->   set by us rather than editable by a manager. This page tells readers to ask
->   their instructor or PI first, which is only good advice if the manager can
->   actually see the setting.
-
 Most questions have an obvious home, and sending one to the wrong place mostly
 costs a day. This page is the routing table.
 

@@ -1,31 +1,5 @@
 # Software: R, RStudio, MATLAB, Stata & Licensed Software
 
-------------------------------------------------------------------------
-
-> **Draft for review.** This is the thinnest page in the set, and deliberately so.
-> Beyond the standard images, almost nothing about software on this platform is
-> documented in a form we can publish as fact.
->
-> - **Unverified:** the whole of the MATLAB and Stata material below comes from
->   Research IT's Confluence space and describes the **Research Cluster**. The
->   MATLAB page names an `R2020b` installation under `/datasets/software/` and a
->   network licence file at a specific path; it was last updated in May 2025 and
->   nothing confirms that installation is still present, still current, or
->   reachable from an instructional workspace. This page therefore describes the
->   shape of the arrangement and sends readers to `rcd-support@ucsd.edu` for the
->   particulars, rather than printing paths that may be years stale.
-> - **Missing:** there is no published list of licensed or site-licensed software
->   available on the platform, and no documented route to request that a licensed
->   package be installed for a course. Both are things instructors ask for every
->   term.
-> - **Missing:** anything at all beyond a name for Octave, ArcGIS, Spark and
->   Postgres. `KB0034559` lists them as available-but-complex; no version, path,
->   image or example exists in any source we hold.
-> - **Decision needed:** whether this page should carry Research Cluster software
->   at all, or link to Research IT's own pages and stop. Restating their material
->   here means two places to keep current, and this page is the one more likely to
->   go stale.
-
 **Most software questions are answered by the standard images**, which cover the
 great majority of courses and projects and receive priority support. What is on
 this page is the rest: the things that are here but are not simply *in* an image,

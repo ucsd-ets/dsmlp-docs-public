@@ -1,33 +1,5 @@
 # Policy: Acceptable Use, Data Classification & Shared-Resource Courtesy
 
-------------------------------------------------------------------------
-
-> **Draft for review.** This page is the corpus' single home for the P3/P4
-> question — [Restricted & Licensed Datasets](../workspaces-and-storage/datasets.md#restricted--licensed-datasets)
-> defers to it deliberately rather than duplicating it. The classification rule
-> itself is confirmed; the process behind it is not.
->
-> - **Decision needed:** `KB0030470` ("Sensitive Data") and `KB0030606` both
->   state a flat P3/P4 prohibition **with no review path**. Those articles are
->   the ones that are wrong. P4 is prohibited; **P3 may be permitted after
->   review**. The failure mode is not a wrong answer, it is silence — a
->   researcher who reads either article concludes they are categorically
->   excluded, never asks, and takes the project elsewhere without us ever
->   learning it existed. Please correct both at source; this page cannot
->   outrank them in a search result.
-> - **Missing:** the review itself. No source we hold says who reviews a P3
->   request, what has to be submitted, what an approval permits, or what
->   controls a permitted dataset then sits under. "Ask early, and allow 4-6
->   weeks or longer" is the whole of what can honestly be published.
-> - **Missing:** what happens if P3 or P4 data reaches the platform by
->   accident. Nothing published describes the reporting route or the
->   consequence, and someone who has just realized what they uploaded needs
->   both.
-> - **Check before publishing:** `KB0034559` remains the published
->   scope-of-support article and is the source of most of the conditions below.
->   Where this page restates one, it should be checked against that article
->   rather than against the older FAQ.
-
 Three separate obligations sit on everyone who uses Datahub and DSMLP: what the
 University permits on the platform, what campus policy permits on any IT
 resource, and what colleagues on a shared cluster are entitled to expect. This

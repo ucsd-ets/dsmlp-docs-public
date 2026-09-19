@@ -30,6 +30,39 @@ passed through untouched and then resolves *relative to the page*: from
 `tools/import-docs.py` rewrites these on import (31 of them in the first
 import), and `mkdocs build --strict` fails CI on any new one.
 
+## What the import strips
+
+`tools/import-docs.py` drops two kinds of editorial apparatus, because they
+address the writing team rather than readers:
+
+- **The leading `> **Draft for review.**` note** on each technical page — 32 of
+  them — listing unverified claims, decisions awaiting a person, and missing
+  figures. These stay in the upstream repository, which is where they are
+  worked on.
+- **The root README's "Status of This Documentation" and "Conventions"
+  sections.** The first becomes actively false once the notes are gone, since
+  it tells the reader that every technical page opens with one; the second is
+  contributor guidance that belongs here, not on the site.
+
+The importer will **refuse to run** if any source page has more than one
+blockquote. On the first import every noted page had exactly one, always in the
+same position, and no page used a blockquote for anything else — that is what
+makes stripping safe. If the drafts start using blockquotes for real content,
+the invariant breaks and the importer stops rather than silently eating a page.
+
+Two things replace what the notes were doing for a reader:
+
+- **A site-wide draft banner** on every page, from `extra.draft_banner` in
+  `mkdocs.yml`. Clear that one value to remove it everywhere; there is no
+  per-page markup to hunt down.
+- **Visible figure placeholders.** The drafts mark an unpublished number with
+  an HTML comment — `| Committed cost | <!-- FIGURE: 4 × the rate --> SU |`.
+  Python-Markdown passes comments straight through, so a browser rendered that
+  as `Committed cost |  SU`: a worked example with the number silently missing,
+  reading as a typo rather than a gap. That was tolerable while each page
+  carried a note explaining it. `tools/hooks.py` now renders 20 such markers as
+  an inline *figure not published* placeholder, with the detail in the tooltip.
+
 ## GFM fidelity
 
 Python-Markdown is **not** GFM. Two gaps are closed so that what renders on
@@ -83,6 +116,10 @@ pages**, strict build clean.
 - `docs/images/` contains only a README. It documents the naming convention
   and references `images/datahub-spawn-menu.png` as an example; that file does
   not exist yet, so the example renders as a broken image on `/images/`.
+- The published pages no longer carry per-page status. The site-wide banner
+  says the set is in draft, but it cannot say *which* claims on a given page
+  are unverified — that detail lives only in the upstream notes. If per-page
+  status matters for review, the upstream repo is the place to read it.
 - In-site search is not wired up. The Decorator chrome already owns `#search`,
   `#q` and `#search-scope`, pointed at the campus-wide redirect, so a docs
   search needs its own UI inside the canvas with different ids. MkDocs' bundled

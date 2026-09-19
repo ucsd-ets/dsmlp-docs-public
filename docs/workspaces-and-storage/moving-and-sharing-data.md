@@ -1,54 +1,5 @@
 # Moving & Sharing Data
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The transfer routes are confirmed. The Globus walkthrough
-> is the weak part, and the permission model underneath the cluster's own
-> directories is not documented at all — this page says so rather than filling
-> the gap with plausible advice.
->
-> - **Missing:** the permission model itself. What is confirmed is thin — the two
->   quota pools, that `public/` is readable by every workspace member and
->   writable by the course grader account, that containers run unprivileged under
->   the member's own UID, and a single published `chmod` line for repairing files
->   staged into `public/`. Nothing states the default mode of a newly created
->   file, whether one member can grant another read access to a file in their own
->   home, whether ACLs are available, or whether `teams/` is writable by team
->   members or only readable. **This page publishes no `chmod` recipe beyond the
->   one already published**, and those four questions should be answered before it
->   goes out.
-> - **Decision needed:** whether we direct readers to ask staff for permission and
->   ownership changes. `KB0034559` lists "file ownership/permissions" among the
->   things the Service Desk adjusts on request, which makes a ticket the only
->   documented lever. This draft says so; confirm that is the intent.
-> - **Unverified:** the Globus Connect Personal procedure comes from a Research IT
->   page whose screenshots date to 2022 and whose commands pin client version
->   3.2.9. This page does not restate the version, since the directory the archive
->   unpacks into is named for whatever version is fetched. Please confirm the flow.
-> - **Unverified:** the Globus Project Guest Collection figures. The source states
->   a 500 GB initial allocation in one paragraph and "500TB" in another; this page
->   publishes 500 GB. It also describes the service as a proof-of-concept and
->   directs requests to `research-it@ucsd.edu`, an address our contact list does
->   not otherwise carry.
-> - **Unverified:** the 64 MB threshold above which browser upload stops being a
->   good idea. It is published in the FAQ and is not in our fact base.
-> - **Check before publishing:** that `sftp` and `rsync` to the login node still
->   announce a transfer pod ("pod *user-nnnn* up and running; starting sftp").
->   We tell readers to expect it, and the transcript it comes from is old.
-> - **Check before publishing:** the `scp`, `sftp` and `rsync` forms below are
->   from `KB0030470` and `KB0032277`; the `rsync` download form is the published
->   example run in the opposite direction. Confirm all three against the running
->   system.
-> - **Missing:** a route for very large moves. Blink names the Pacific Research
->   Platform for that purpose; we describe neither it nor the volume at which
->   `rsync` or Globus stops being adequate.
-> - **Missing:** we publish no size guidance for browser *downloads*. The only
->   published figure — 64 MB — is about uploads.
->   <!-- FIGURE: practical size ceiling for downloading through the Jupyter UI -->
-> - **Missing:** whether the cluster-wide `private/` directory survives the
->   closure of a member's last course workspace. Until that is answered, this page
->   treats `private/` as something to copy out as well.
-
 Files reach the cluster by one of four routes, chosen mostly by size and by how
 often the transfer is repeated. Sharing them splits into two quite different
 problems: letting other people on the cluster read a member's files, and getting

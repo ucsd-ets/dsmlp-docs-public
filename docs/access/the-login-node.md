@@ -1,55 +1,5 @@
 # The Login Node
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The connection procedure, the key-pair setup, the rule
-> and both tunnel forms are confirmed. Five things are not, and one figure does
-> not exist.
->
-> - **Corrected 2026-08-28 — the VPN requirement was stated too broadly.** Our
->   fact base said the VPN was required from off campus for shell access. **It is
->   not required for SSH to the login node at all.** `KB0032269`'s narrower
->   reading is the correct one: the VPN is for reaching a *container* port. The
->   body now says so, and the `Connection timed out` row no longer blames the VPN.
->   *Anywhere else in the corpus still telling readers to connect to the VPN
->   before `ssh` should be corrected to match.*
-> - **Missing:** there is no published threshold for the rule. "Move a file" is
->   clearly fine and "train a model" is clearly not, but nothing tells a reader
->   where a large `pip install`, a `git clone` of several gigabytes, or a
->   five-minute `unzip` falls. This is the question the rule actually generates,
->   and this page can only answer it by feel until someone sets a number.
->   <!-- FIGURE: a usable threshold — CPU-seconds, wall time, or memory — above
->        which work belongs in a container -->
-> - **Check before publishing:** what happens when the rule is broken. Whether
->   there is automated enforcement or a human follow-up is not documented
->   anywhere, and the honest answer changes how firmly this page should be
->   phrased.
-> - **Check before publishing:** how the Duo prompt presents at an SSH login —
->   push, passcode, or a choice — is not documented anywhere we control, and it
->   is the first thing a first-time user asks.
-> - **Check before publishing:** the key-pair commands now name the key type
->   (`ssh-keygen -t ed25519`, giving `id_ed25519.pub`) where `KB0032269` runs
->   `ssh-keygen` bare and then reads `id_rsa.pub`. Bare `ssh-keygen` no longer
->   reliably produces an RSA key — Microsoft's current OpenSSH article states
->   Ed25519 is used when no algorithm is given — so the published instruction
->   sends readers to a file name that may not exist on a recent client. This page
->   and `remote-editor-setup.md` agree; `KB0032269` still carries the defect.
-> - **Unverified:** `IDENTITY_PROXY_PORTS`. `KB0032269` documents setting it to
->   `1` before launching in order to have a container port published on the login
->   node, and it is the mechanism behind the TensorBoard instructions in
->   circulation. It does not appear in the launcher source we read at commit
->   `c61188f`, so this page describes it as a documented option rather than a
->   confirmed one.
-> - **Decision needed:** `KB0032269` and the capstone lesson both publish the
->   login node's literal IP address as a workaround for name-resolution and
->   port-forwarding trouble. This page mentions the workaround without the
->   address. Confirm that is the intent, since anyone who hits that problem will
->   find the address in the older article regardless.
-> - **Check before publishing:** whether we want to lead with the tunnel or with
->   the VPN for reaching a notebook. Every third-party guide leads with the
->   tunnel; our published article leads with the VPN. This page teaches the
->   tunnel first, which is a change.
-
 `dsmlp-login.ucsd.edu` is the door, not the room. Every user of the platform
 passes through this one host on the way to somewhere else, and it is sized for
 that job and no other. This page covers reaching it, what belongs on it, and how

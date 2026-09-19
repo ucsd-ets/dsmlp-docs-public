@@ -1,28 +1,5 @@
 # Building & Publishing a Custom Image
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The build-and-publish path is drawn from the maintained
-> example repository and from `KB0034335`, both of which we own. Several details
-> around *requesting* a course image have drifted.
->
-> - **Decision needed:** how a custom course image is requested now.
->   `KB0034335` still says to request it through CINFO at `cinfo.ucsd.edu`; that
->   process was replaced by the Specialized Instructional Computing Course
->   Request form. This page describes the request in terms of the course request
->   and the course ticket without naming CINFO, but `KB0034335` needs updating
->   rather than working around.
-> - **Unverified:** that the GitHub repository must be **public**. The example
->   repository's prerequisites say public, with the stated reason being GitHub's
->   free plan — a billing consideration, not a platform requirement. Confirm
->   before we tell an instructor their course materials must be public.
-> - **Check before publishing:** whether `-P` is case-sensitive. The published
->   option list gives `ifnotpresent|always|never`, while every worked example we
->   have writes `-P Always`, which is what this page uses.
-> - **Missing:** any published ceiling on image size or build time, and any
->   figure for how long a first pull of a large image takes on a node. Users ask
->   both. <!-- FIGURE: image size guidance, if any exists -->
-
 **A custom image is what a course builds when a standard image does not go far
 enough** — most often when the course needs an operating-system package, which
 cannot be installed from inside a running container.

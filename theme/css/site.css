@@ -219,3 +219,46 @@ main#main-content .main-content-nav > h2:first-child {
 main#main-content .main-content-nav .docs-toc {
 	margin-bottom: 24px;
 }
+
+/* ---- Site-wide draft banner ---------------------------------------- *
+ * Replaces the per-page "Draft for review" notes the importer strips.
+ * UCSD gold rather than Bootstrap's contextual yellow, which Decorator
+ * does not restyle.
+ */
+
+main#main-content .docs-draft-banner {
+	border: 1px solid var(--ucsd-yellow);
+	border-left: 5px solid var(--ucsd-yellow);
+	background: #fffdf2;
+	padding: 12px 16px;
+	margin: 0 15px 22px;
+}
+
+main#main-content .docs-draft-banner > :last-child {
+	margin-bottom: 0;
+}
+
+main#main-content .docs-draft-banner__label {
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	font-size: 12px;
+	margin-bottom: 4px;
+	color: var(--ucsd-dark-blue);
+}
+
+/* ---- Unpublished figures ------------------------------------------- *
+ * Marks a number that does not exist yet, so a gap reads as a gap rather
+ * than as a blank table cell or a missing word mid-sentence.
+ */
+
+main#main-content .docs-figure {
+	display: inline-block;
+	background: var(--ucsd-sand);
+	border-bottom: 1px dotted var(--ucsd-gray);
+	color: var(--ucsd-dark-gray);
+	font-size: .9em;
+	font-style: italic;
+	padding: 0 4px;
+	cursor: help;
+}

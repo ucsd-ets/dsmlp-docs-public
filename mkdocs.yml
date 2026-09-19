@@ -20,6 +20,15 @@ extra:
   site_name_short: DSMLP
   feedback_email: datahub@ucsd.edu
 
+  # Site-wide draft notice, shown on every page by
+  # theme/partials/draft-banner.html. Clear this value to remove it everywhere
+  # once the content is signed off -- there is no per-page markup to hunt down.
+  draft_banner: >-
+    This documentation is in draft and under active review. Figures for the
+    Fall 2026 GPU reservation system are not yet published, and some pages
+    describe behaviour that has not been verified against a primary source.
+    Check with us before relying on anything here.
+
 # MkDocs ships lunr.js search, which needs its own UI. The Decorator chrome
 # already owns #search, #q and #search-scope and points them at the campus-wide
 # redirect, so an in-site search has to live in the canvas with different ids.

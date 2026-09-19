@@ -1,51 +1,5 @@
 # Managing a Group: Privilege Tiers & Reports
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The four tiers, the manager's three powers, and what the
-> reports cover are confirmed. How tiers are *assigned*, what the auditor tier can
-> see, and where the reports live are not.
->
-> - **Decision needed:** what we call the second tier in public. Our source names
->   it **group manager**; every other page in this set, and the workspace
->   terminology decision behind them, says **workspace manager**. This page uses
->   "workspace manager" for consistency and notes the other spelling once. One
->   term should win across the corpus.
-> - **Decision needed:** whether cluster-wide report visibility is intended, and
->   whether we describe it plainly or hold that section until it is narrowed. A
->   manager opening a report and finding other departments' bookings in it is a
->   privacy-shaped surprise, and it is better met in documentation than in
->   discovery. This draft describes it plainly.
-> - **Missing:** how a manager becomes one. Course rosters auto-populate from
->   TritonLink/TSS and Canvas, so a TA presumably acquires the tier with the
->   Canvas role — but nothing published says so, and nothing says how a PI or a
->   lab member is designated. A course adding a TA in week 3 needs the answer.
-> - **Missing:** what an auditor sees. "Read-only staff" is the whole of what is
->   confirmed. Whether an auditor can see a member's usage, a group's calendar, or
->   nothing but reports is undocumented.
-> - **Missing:** whether a member can see which tier they hold, anywhere in the
->   interface.
-> - **Missing:** which reports are group-scoped and which are cluster-wide. Our
->   source says "some", not which, so this page has to warn about all four. A
->   reviewer with access to the running system can settle it in a minute.
->   <!-- FIGURE: for each of the four reports, whether it is scoped to the manager's own group -->
-> - **Missing:** where the reports are. The reservation interface is not named in
->   any source we hold, so this page cannot tell a manager how to reach the thing
->   it describes. The same gap blocks
->   [Reservations](../gpu-access/reservations.md).
-> - **Missing:** whether the reports break down by individual member, whether they
->   can be exported, and how current they are. All three change how a manager
->   would use them, and none is documented.
-> - **Unverified:** what a manager can see of a member's bookings. The reservation
->   system's own documentation, as assessed for this project, states that the
->   notes attached to a booking are visible to course staff, and that in
->   researcher mode a member's username and notes are visible to the whole group.
->   Neither is confirmed for DSMLP, and both should be settled before members are
->   told anything about privacy.
-> - **Check before publishing:** against `KB0034559`, which remains the published
->   scope-of-support article for instruction and does not mention reporting at
->   all.
-
 Four tiers exist in the reservation and workspace system, and the boundary that
 matters in practice is not the one between member and manager — it is the one
 between what a manager may do and what only an administrator may do.

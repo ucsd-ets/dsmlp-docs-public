@@ -1,35 +1,5 @@
 # Watching a Running Job
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The commands below come from the published command-line
-> article and from course material currently in use. The two *interface* surfaces
-> they describe — the in-notebook resource display and the identity port map —
-> are not confirmed against the current builds.
->
-> - **Unverified:** `IDENTITY_PROXY_PORTS`. `KB0032269` documents setting it to
->   `1` before launching so that a container port is published on the login node,
->   and it is the mechanism behind the TensorBoard instructions in circulation. It
->   does not appear in the launcher source read for this project, so this page
->   describes it as a documented option rather than a confirmed one.
->   [The Login Node](../access/the-login-node.md#reaching-a-port-from-the-login-node)
->   takes the same position.
-> - **Unverified:** where the in-notebook resource display actually appears.
->   `KB0032269` says stock containers show CPU, memory and GPU utilization "at the
->   top of the Jupyter notebook screen"; `KB0030470` says available RAM is in "the
->   upper right corner" of the notebook server. The two published articles do not
->   agree, neither is confirmed against the current JupyterLab interface, and this
->   page therefore tells the reader what to look for rather than where to look.
-> - **Check before publishing:** that `htop` is present in the standard images.
->   `KB0032269` tells command-line users to run it, but we have not confirmed it is
->   installed in `datascience-notebook`, `scipy-ml-notebook` and `rstudio-notebook`
->   alike, and a missing-command error is a poor first experience.
-> - **Missing:** any way to watch a container approach its memory *limit* before it
->   is killed. `launch.sh` sets the memory request to half the limit named, so a
->   container can be using memory the node may not have spare. Nothing in our
->   sources tells a reader how to observe that boundary, and `OOMKilled` is
->   consequently the first notice most people get.
-
 Long runs fail quietly. A training job that never reached the GPU, a process
 killed for memory hours ago, a session idle since lunch — none of these announce
 themselves. This page covers the three things worth watching, **CPU, memory and

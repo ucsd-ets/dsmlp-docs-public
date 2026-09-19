@@ -1,34 +1,5 @@
 # Glossary
 
-------------------------------------------------------------------------
-
-> **Draft for review.** Every term below is defined from a confirmed source or
-> from the page in this set that owns it. Where a term is genuinely undefined,
-> this page says so rather than filling the gap.
->
-> - **Decision needed:** **group manager** or **workspace manager**. Our source
->   for the privilege tiers uses the first; the terminology decision behind this
->   whole documentation set says *workspace*, never *usage group*. This glossary
->   defines the second and cross-references the first. One should win.
-> - **Decision needed:** what relation **Research Cluster** bears to **DSMLP**.
->   Both names are in active use, both are documented by different teams with
->   different support addresses, and no source we hold states plainly whether
->   they are two clusters, one cluster under two names, or one cluster with two
->   service offerings. A glossary is exactly where a reader expects that
->   answered, and this one cannot.
-> - **Missing:** *the re-arm*, which names a behaviour in the idle-culling
->   subject index and is defined nowhere.
->   → [Idle Culling](../gpu-access/what-ends-a-session.md#what-counts-as-idle)
-> - **Missing:** authoritative one-line definitions of the reservation-system
->   session events. This glossary does not define them, following
->   [Kubernetes Events](../running-jobs/kubernetes.md#reservation-events), which names them
->   and declines to define them for the same reason. They are also scoped to the
->   researcher and project pages, so a reviewer should decide whether a glossary
->   entry for each belongs here at all.
-> - **Missing, by decision:** a launcher priority flag taught in the current
->   (2025-26) DSC 180AB capstone material is not defined here. Students use the
->   term in tickets and will not find it in this glossary.
-
 Terms used across this documentation set, alphabetically. *Where a term has a
 page of its own, the definition here is the one-line form and the link is the
 authority.*

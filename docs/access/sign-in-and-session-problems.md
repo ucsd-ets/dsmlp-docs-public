@@ -1,40 +1,5 @@
 # Sign-In & Session Problems
 
-------------------------------------------------------------------------
-
-> **Draft for review.** Most of this page is confirmed. The provisioning timings
-> are not, and the cause of an unexplained spawn failure is now an open question.
->
-> - **Corrected 2026-08-28:** the first cause listed under *Spawn Failed* used to
->   be "the same course environment cannot run from the browser and from a
->   terminal at once". **That restriction does not exist.** A member may run one
->   Datahub session together with any number of shell, VS Code and batch jobs.
->   The entry below has been rewritten to the limit that does exist — one Datahub
->   session — and to the aggregate resource ceiling.
-> - **Decision needed:** what actually causes "Spawn failed" when none of the
->   remaining causes applies. The published attribution was to the restriction
->   above, which is not real, so that row is now unexplained. **Nothing here
->   should be treated as the authoritative cause until it is verified against the
->   hub logs.**
->   <!-- FIGURE: the real cause(s) of an unexplained JupyterHub spawn failure -->
-> - **Settled 2026-08-28 — the roster timings.** `KB0034559` is correct and the
->   other two sources are not. Rosters are loaded into workspaces **one business
->   day before the start of the term**, and a TSS change is reflected **by 10am
->   the day following the change**. `KB0030470`'s *"allow 1-2 business days"* and
->   our own [Using Datahub in a Course](../student-in-a-course.md)'s *"within a
->   couple of hours"* are both wrong and have been corrected across this set.
-> - **Removed 2026-08-28 — "The Address".** This page previously opened with a
->   section saying only `@ucsd.edu` addresses are accepted and that a departmental
->   address such as `@eng.ucsd.edu` produces a silent sign-in loop. **Datahub uses
->   standard UCSD single sign-on**, so there is no Datahub-specific address rule
->   to get wrong. The AD username matters at the *SSH* prompt, and that is
->   documented on [The Login Node](the-login-node.md#connecting-over-ssh). The
->   same claim has been removed from the four other pages that repeated it.
-> - **Check before publishing:** the remedies quoted from `KB0030470` —
->   `workspace --list`, `workspace -c`, moving `.local/lib` aside — and the error
->   string *"Spawn failed when starting server"* are reproduced from the published
->   article and have not been checked against the current images.
-
 Nearly every failure to reach [datahub.ucsd.edu](https://datahub.ucsd.edu) is one
 of four things, and most of them have a self-service remedy. The sections below
 are ordered by how often each turns out to be the cause; please work down them

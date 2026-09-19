@@ -1,39 +1,5 @@
 # Customizing an Environment
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The supported route — a virtual environment with its own
-> Jupyter kernel — and the hard boundary at root are confirmed. One question in
-> the middle is genuinely unsettled.
->
-> - **Decision needed:** whether **conda** environments are supported for user
->   customization. `KB0033812` states flatly that "we do not provide support for
->   customizations to your environment using conda", and documents only the
->   `venv` route.
->   `KB0032173` describes the conda environments shipped inside our images as
->   usable with `conda activate`. Meanwhile the current DSC capstone
->   environments assignment accepts a conda environment as a valid deliverable,
->   so students arrive expecting conda to work. This page deliberately asserts
->   neither "conda is supported" nor "conda is forbidden"; somebody needs to
->   settle it and the wording here should then be replaced.
-> - **Check before publishing:** the reset behaviour. `KB0033812` says
->   manual-resetter "will stop your servers, log you out, and reset your profile
->   while preserving all work/files". This page repeats that. Confirm it against
->   the running service before a student follows it during a deadline week.
-> - **Missing:** where installed packages land against the quota. Packages
->   installed this way go into the member's home directory and consume it, but no
->   published figure gives their typical size.
->   <!-- FIGURE: typical .local / venv footprint, if one is worth publishing -->
-> - **Check before publishing:** whether any part of a standard image is writable
->   in a way that surprises people. The maintained example repository carries a
->   commented-out section headed "Write Access to /opt/conda", which suggests the
->   question came up and was never answered in public. Users who try to
->   `conda install` into the image directory will meet whatever the answer is.
-> - **Missing:** the error text of the `sudo` failure. This page describes the
->   failure in words; a reader searching for the exact message they saw would find
->   it faster if we quoted it. Nobody has captured it.
->   <!-- FIGURE: verbatim text of the sudo failure inside a container -->
-
 **Packages can be added to a standard image without building a custom one.**
 Anything that installs into a member's own home directory is available to that
 member: Python packages, an R library, a private Jupyter kernel. Anything that

@@ -48,7 +48,8 @@ def _split_blockquote(match: re.Match) -> str:
 
 
 def on_page_content(html: str, page=None, config=None, files=None) -> str:
-    return BLOCKQUOTE.sub(_split_blockquote, html)
+    html = BLOCKQUOTE.sub(_split_blockquote, html)
+    return _mark_figures(html)
 
 # --------------------------------------------------------------------------
 # GitHub-compatible heading anchors
@@ -88,3 +89,38 @@ def on_config(config):
     toc = config["mdx_configs"].setdefault("toc", {})
     toc["slugify"] = github_slugify
     return config
+
+
+# --------------------------------------------------------------------------
+# Unpublished figures
+# --------------------------------------------------------------------------
+#
+# The drafts mark a number nobody has published yet with an HTML comment:
+#
+#     | Committed cost | <!-- FIGURE: 4 x the rate --> SU |
+#     The charge is for **two hours** -- <!-- FIGURE: 2 x the rate --> SU --
+#
+# Python-Markdown passes comments straight through, so a browser renders those
+# as "Committed cost |  SU" and "for two hours --  SU --": a worked example with
+# the number silently missing, reading as a typo rather than as a gap.
+#
+# That was tolerable while each page opened with a note explaining it. The
+# importer now strips those notes, so the gap has to be visible on the page
+# itself. 19 of these markers sit in page bodies, several inline in tables and
+# mid-sentence.
+
+# The colon and the description are both optional: two markers in the set
+# are a bare `<!-- FIGURE -->` with no detail at all.
+FIGURE = re.compile(r"<!--\s*FIGURE\s*:?\s*(.*?)\s*-->", re.S)
+
+
+def _figure(match):
+    detail = " ".join(match.group(1).split())
+    detail = detail.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    detail = detail.replace('"', "&quot;")
+    title = f"Not yet published: {detail}" if detail else "Not yet published"
+    return f'<span class="docs-figure" title="{title}">figure not published</span>' 
+
+
+def _mark_figures(html):
+    return FIGURE.sub(_figure, html)

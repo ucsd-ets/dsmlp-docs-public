@@ -1,43 +1,5 @@
 # Choosing a Grading Tool & Interface
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The comparison here is drawn from the grading tool table
-> in `KB0032344`, which we publish. The table contains one contradiction that
-> this page has to work around rather than reproduce.
->
-> - **Decision needed:** `KB0034559` lists "Canvas gradebook integration" among
->   our standard features and cites `KB0032344` for it. `KB0032344`'s own table
->   says, for nbgrader, **Canvas Course Integration: Yes (by ETS)** and, one row
->   later, **Grades Import to Canvas: No**. Those two rows describe different
->   things — rosters and grades — and are read as a single claim by every
->   instructor who skims them. One of the two articles needs rewording.
->   → [Exporting the Grades](notebook-grading-workflow.md#exporting-the-grades)
-> - **Unverified:** the table's "Custom Grading environment: Docker image built
->   by ETS" for nbgrader. That sits oddly beside the current position that
->   instructors or a TPOC lead course customization, and it may simply mean the
->   course image. Confirm before an instructor plans around it.
-> - **Missing:** how an instructor obtains Gradescope in the first place. Two of
->   the three options here depend on it and none of our articles say who
->   provides it or how to get a course set up there.
-> - **Missing:** a recommendation. `KB0032344` is a feature matrix and stops
->   short of saying which tool a course should start from. This page does the
->   same, deliberately — but somebody should decide whether we are willing to
->   give a default answer.
-> - **Decision needed:** whether we keep documenting **NBClassic** at all.
->   `KB0035185` describes it as experimental, says extensions such as nbgrader are
->   no longer supported in it, and explicitly declines to guarantee long-term
->   support. Naming it here helps the reader who has already switched to it and
->   cannot find Formgrader; it also advertises a view we would rather nobody used.
-> - **Check before publishing:** that nbgrader is reachable only from the Jupyter
->   interfaces and not from RStudio. Every published description places Formgrader
->   in a Jupyter menu or tab, and nbgrader is a Jupyter extension, so this page
->   says so — but it is an inference from consistent silence rather than from a
->   positive statement, and an R-heavy course will ask.
-> - **Missing:** what a student actually sees when they open an assignment in an
->   interface that does not carry the extension. "The menu is not there" is the
->   assumption; nobody has confirmed the symptom.
-
 **Three grading tools are in use for Datahub courses**, and they differ less in
 what they can grade than in *where the work happens* — on our platform, or on
 Gradescope's.

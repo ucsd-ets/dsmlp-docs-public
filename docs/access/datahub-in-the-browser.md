@@ -1,25 +1,5 @@
 # Datahub in the Browser
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The sign-in sequence, the address rule and the stop
-> procedure are drawn from the confirmed fact base. Three details are flagged.
->
-> - **Corrected 2026-08-28:** this page previously carried "one environment at a
->   time" — that the same course environment could not run from the browser and
->   the shell at once. That restriction does not exist. The limit is one *Datahub
->   session*; shell, VS Code and batch jobs run alongside it and alongside each
->   other. See [One Datahub Session](#one-datahub-session).
-> - **Check before publishing:** the FAQ (`KB0030470`) names the stop control
->   **"Stop My Notebook"**; `KB0035185` and our fact base name it **"Stop My
->   Server"**. This page uses *Stop My Server*. The FAQ should be corrected so
->   that a single name is in circulation.
-> - **Check before publishing:** `KB0030470` directs the reader to sign out of
->   other Google accounts or use a private window. Confirm against the running
->   system that this step still applies before it is repeated here.
-> - **Missing:** no screenshot of the environment-selection page. One should be
->   added when the image set exists.
-
 [datahub.ucsd.edu](https://datahub.ucsd.edu) provides browser-based access to
 course environments. It requires a browser, UCSD campus credentials and Duo. No
 local installation or command-line experience is needed.

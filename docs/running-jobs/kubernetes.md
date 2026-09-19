@@ -1,38 +1,5 @@
 # Kubernetes: Direct Use & the Events a Session Emits
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The service manifests come from
-> `ucsd-ets/dsc104-kubernetes-setup`, which is the only public documentation of
-> multi-pod services on this platform — ours, but undated. The five reservation
-> event names are confirmed; authoritative one-line definitions of them are not
-> published anywhere, and this page does not invent them.
->
-> - **Missing:** what each reservation event means, in one sentence, from the team
->   that emits it. The table below gives each name and the confirmed behaviour it
->   relates to, which is not the same thing and should not be published as though
->   it were.
->   <!-- FIGURE: an authoritative one-line definition of RuntimeGuaranteed, Preempted, OnDemandLeaseDenied, OverstayRelinked and ReservationReassigned -->
-> - **Missing:** how a manifest-launched pod interacts with GPU classes and with
->   the reservation system. If a manifest asks for a GPU, nothing here tells the
->   reader what label it needs or what it costs.
-> - **Decision needed:** whether reservation events carry a human-readable message
->   alongside the reason string. If they do, half of this page is unnecessary and
->   should be replaced with "read the message".
-> - **Unverified:** the repository ships a `solr-pod.yaml` that its README does
->   not mention. Either it works and should be documented, or it does not and
->   should be removed; this page does not describe it because nobody has checked
->   which.
-> - **Check before publishing:** that resources requested in a manifest count
->   against the same namespace tier as a `launch.sh` pod. This page says they do,
->   which is what the namespace model implies, but it has not been measured.
-> - **Check before publishing:** how long events remain visible. Kubernetes keeps
->   them for a limited window, so advice to "run `kubectl get events`" is only
->   useful if the reader does it promptly — and we should say how promptly. The
->   ordinary-event table is standard Kubernetes vocabulary rather than anything
->   read off our cluster; a glance at a real namespace would confirm the set is
->   the one users actually see.
-
 `launch.sh` is a front end to Kubernetes, and Kubernetes is available underneath
 it. This page covers the cases the launcher does not — chiefly running more than
 one pod at a time, and running something that is not a notebook — and the events a

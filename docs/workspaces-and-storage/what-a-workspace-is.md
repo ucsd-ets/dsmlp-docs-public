@@ -1,42 +1,5 @@
 # What a Workspace Is and What It Controls
 
-------------------------------------------------------------------------
-
-> **Draft for review.** Structure and behaviour are drawn from the internal
-> DSMLP overview and the current published instructional articles. Several
-> commands and one filesystem path are transcribed from articles we could not
-> verify against the running system.
->
-> - **Decision needed:** the published articles (`KB0032273`, `KB0032269`) and
->   the most-read third-party course page both print worked examples of the
->   workspace ID naming key we have decided not to document, and that course page
->   also tells students a workspace gives them access to files shared with their
->   own section. This page therefore tells the reader to *list* their workspaces
->   rather than construct an ID, and says plainly that a workspace is
->   course-wide. Someone should decide whether to ask those page owners to
->   correct their examples, because students copy them today.
-> - **Unverified:** the workspace listing command appears in published articles
->   in three spellings — `workspace --list` (`KB0032269`, `KB0030470`),
->   `workspace -l` (`KB0030470`, `KB0032277`) and `workspaces -l` (prose in
->   `KB0032277`, whose own worked example says `workspace`). This page uses
->   `workspace --list`. Please confirm which forms the installed command accepts.
-> - **Unverified:** `workspace -c <workspace-id>` to change into a workspace home
->   directory, from `KB0030470`.
-> - **Decision needed:** the two published articles give the workspace path in
->   two incompatible forms — `/dsmlp/workspaces-fs0*/<ID>/home/<user>`
->   (`KB0032277`) and `/dsmlp/fs0x-workspaces/<ID>/home/<user>` (`KB0030470`).
->   One of them is wrong. This page deliberately does not print a path pattern
->   and tells the reader to read the path out of `workspace --list` instead.
-> - **Missing:** how many Jupyter configurations one workspace may define, and
->   whether a manager can add or change one without a ticket. Neither figure is
->   published anywhere we can find.
-> - **Missing:** whether a workspace that has ended still appears in the browser
->   menu. The command-line listing warns that it "may include courses that have
->   ended"; nothing says what the menu does.
-> - **Check before publishing:** "Campus Researcher" as the example of a
->   catch-all workspace is taken from the internal overview and may not be the
->   name a user actually sees in the browser menu.
-
 Almost everything the cluster knows about a piece of work, it knows through a
 **workspace**. Users are divided into workspaces — one per course, one per lab,
 or one catch-all population (e.g. "Campus Researcher") — and the workspace

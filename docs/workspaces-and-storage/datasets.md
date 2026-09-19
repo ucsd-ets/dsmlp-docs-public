@@ -1,45 +1,5 @@
 # Datasets: Shared, Restricted & Licensed
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The mechanism for staging shared data is confirmed; the
-> inventory is not, and one published claim about restricted data is wrong and
-> should be corrected at its source.
->
-> - **Decision needed:** `KB0030470` ("Policies — Sensitive Data") and
->   `KB0030606` both state a flat P3/P4 prohibition **with no review path**.
->   Those articles are the ones that are wrong: P4 is prohibited, but **P3 may be
->   permitted after review**. This is not a cosmetic difference. A researcher who
->   reads either article concludes that they are categorically excluded and never
->   asks, so the failure mode is silence — we never see the request and never
->   learn that the project went elsewhere. Please correct those two articles
->   rather than relying on this page to outrank them.
-> - **Decision needed:** the course dataset path convention. Two course sites show
->   two shapes — `/datasets/cs252d-sp22-a00-public/` and, without the prefix,
->   `/ds102-wi22-a00-public/`. This page publishes the first. Someone should
->   confirm whether the second was a separate mount or an error in the assignment.
-> - **Missing:** the P3 review itself. No source says who reviews a request, what
->   must be submitted, what an approval permits, or what controls a permitted
->   dataset then sits under. All this page can honestly publish is "ask early, and
->   allow 4-6 weeks or longer".
-> - **Missing:** what "restricted to a specific course" means on disk.
->   `KB0030587` says datasets may be published system-wide or restricted to one
->   course, but nothing states whether a restricted tree is enforced by
->   permissions or is merely not advertised. A reader deciding where to put
->   licensed data needs that answer.
-> - **Missing:** there is no published list of licensed datasets held on the
->   cluster, and no documented route to be added to one.
-> - **Unverified:** the named corpora below come from the Research IT Research
->   Cluster user guide, whose dataset table still lists ImageNet Fall 2011 and
->   similar vintages. The live catalog is the authority, and this page quotes no
->   sizes for that reason.
-> - **Unverified:** the Nielsen example — the path `/uss/dsmlp-a/nielsen-dataset/`
->   and the phrase "authorized users" — comes from the same guide. Whether that
->   mount is reachable from a Datahub/DSMLP workspace, and how authorization is
->   granted, is not documented anywhere we can find.
-> - **Check before publishing:** that `datahub.ucsd.edu/hub/datasets` is still the
->   catalog, and that it is reachable by students rather than staff only.
-
 Large data belongs in one place that everyone reads, not in a copy per person.
 The cluster provides two such places, and which of them holds a dataset
 determines what its size counts against. Two further restrictions land on the

@@ -1,51 +1,5 @@
 # Job Modes, Runtime Limits & Configuration
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The three modes, the three runtime figures and the
-> environment-variable model are confirmed from the launcher's own source. Four
-> things are not.
->
-> - **Corrected 2026-08-28:** this page previously carried "one environment at a
->   time" — that the same course environment could not run from the browser and
->   the shell at once. **That restriction does not exist.** See
->   [Running Several Jobs at Once](#running-several-jobs-at-once).
-> - **Missing:** the sanctioned route to a run longer than 12 hours is described
->   here only as "contact us". Current third-party course material (DSC 180AB
->   capstone, Lesson 2, 2025-26) teaches students a launcher flag that raises the
->   ceiling directly, which this page omits by decision. A student who has read
->   that lesson will believe this page is incomplete, and a reviewer should decide
->   what we want the front-line answer to be.
-> - **Missing:** the numeric limits on concurrent work. Aggregate CPU, memory and
->   GPU across a member's running sessions must fit within the Kubernetes limits
->   on their namespace, and no source publishes those figures.
->   <!-- FIGURE: the namespace-level CPU, memory and GPU ceilings that bound concurrent sessions -->
-> - **Unverified:** the environment-variable list. These names were read from the
->   launcher's source at commit `c61188f`, from the Research Cluster user guide,
->   and from the `datahub-example-notebook` README. *Every flag has an equivalent
->   variable*, so there are more names than are listed here, and we have not
->   established which of them are safe and useful to publish.
->   <!-- FIGURE: the complete supported environment-variable list, and which are intended for users -->
-> - **Decision needed:** one variable read by the launcher changes how much of a
->   requested CPU and memory allocation is actually reserved. Publishing it would
->   let users alter their own scheduling behaviour; not publishing it leaves the
->   halving on the [`launch.sh` reference](launch-sh-reference.md) looking like an
->   immovable fact when it is not quite one.
-> - **Unverified:** that `tmux` is present in the standard images. Course material
->   (CSE 252D, Spring 2022) recommends it as an alternative to `-b`, and this page
->   mentions it on that basis.
-> - **Check before publishing:** that a foreground pod is terminated when the
->   login-node connection drops. This comes from `KB0032269`. It is the whole
->   reason `-b` exists, so it is worth a two-minute confirmation.
-> - **Check before publishing:** that `-b` and `-B` do not affect the runtime
->   limit. Two published articles attribute the limit to `-b` — one says 6 hours,
->   one says 12 — and the launcher source attributes it to neither. This page
->   follows the source.
-> - **Check before publishing:** the copy-and-edit recipe comes from the Research
->   Cluster user guide, which names a launch script that may no longer exist. The
->   pattern is what matters; the script name in the example should be one that
->   does.
-
 There are three ways to run something. The difference between them is not how much
 compute a job receives — it is what happens when nobody is attached. A container
 also has a deadline, and there is a tidier way to configure one than retyping

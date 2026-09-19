@@ -1,27 +1,5 @@
 # Common Grading Failures & Recovery
 
-------------------------------------------------------------------------
-
-> **Draft for review.** Every failure below is one we have published a cause and
-> a fix for, in `KB0030588`, `KB0030470`, `KB0032773` or `KB0033812`. Three
-> points still need a human.
->
-> - **Unverified:** the submission advice under "A student says they submitted
->   and nothing was collected". It is drawn from course material rather than
->   from any article of ours — the COGS 18 tooling notebook, which tells
->   students they must click **Submit**, must confirm the assignment appears
->   under submitted assignments, and that only the most recent submission is
->   visible to staff. That matches how nbgrader behaves, but we have never
->   published it, so students hear it only if their course happens to say it.
-> - **Decision needed:** who a student should contact. `KB0034559` asks students
->   to route functionality concerns through their instructor or TA. This page
->   follows that, which means a student reading it is told to go to their
->   instructor even where the fix is entirely in their own hands. Confirm that
->   is what we want.
-> - **Missing:** any recovery for a corrupted nbgrader database, or for grades
->   lost when an assignment is removed. Both are rare and both are unrecoverable
->   as far as anything published says.
-
 **Most grading failures have one of about six causes.** This page is arranged by
 symptom.
 

@@ -1,56 +1,5 @@
 # Checkpointing & Logging Long Runs
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The platform facts here — the runtime limit, idle culling,
-> the shared filesystem, the maintenance windows — are confirmed. The termination
-> warning, the pod annotations that carry it, and the checkpointing practice built
-> on them are adapted from the GPU reservation controller's own consumer
-> reference (`POD-ANNOTATIONS.md`), which `RESERVATION-DOCS-ASSESSMENT.md` §2
-> marks publishable. That material is engineering-facing, so several things it
-> takes for granted have to be settled before this page can go out.
->
-> - **Decision needed:** the annotation keys below are prefixed with the internal
->   product codename the writers' brief tells us not to publish. Documentation
->   cannot rename them — they are the strings the cluster actually writes, and a
->   reader who cannot type them exactly cannot use the feature at all. So the
->   choice is to explain the prefix or to provide a supported wrapper that hides
->   it. This is the same open decision
->   [Best-Effort Reservations](../gpu-access/reservations.md#best-effort-reservations) raised
->   about the runtime-guarantee annotation, and it should be settled once for the
->   whole corpus rather than twice.
-> - **Missing:** how a container launched with `launch.sh` is meant to see these
->   annotations at all. `-A key=value` sets an annotation on the pod, but reading
->   one back from inside the container needs a downward-API volume in the pod
->   spec, and no documented launcher flag adds one. Either the standard images
->   already mount `/etc/podinfo` — in which case this page should say so and drop
->   the manifest below — or only the hand-written-manifest path can use any of
->   this, which would make the section far less useful than its length suggests.
->   <!-- FIGURE: whether /etc/podinfo is mounted in the standard images, and if not, the supported way to get it -->
-> - **Missing:** how much notice the warning gives, and how long the grace period
->   after it is. The controller's material gives defaults for both;
->   [What Ends a Session](../gpu-access/what-ends-a-session.md#the-end-of-a-window-is-not-a-kill)
->   deliberately withheld the same figures as unconfirmed, so this page withholds
->   them too and describes only the shape. A reviewer with the scheduling contract
->   in front of them settles all three numbers in a minute.
->   <!-- FIGURE: the warning interval, the interval between warning and reclaim, and the pod's termination grace period -->
-> - **Check before publishing:** two sibling pages —
->   [What Ends a Session](../gpu-access/what-ends-a-session.md#the-end-of-a-window-is-not-a-kill)
->   and [Best-Effort Reservations](../gpu-access/reservations.md#best-effort-reservations) —
->   state that a preemption arrives with no signal and no chance to save. That is
->   right for the runtime deadline and wrong for preemption, which is announced
->   minutes ahead on the pod. The corpus needs one answer; this page carries the
->   corrected version, and those two should be reconciled to it rather than the
->   other way round.
-> - **Decision needed:** the code below is the most useful thing on this page and
->   the most expensive to keep accurate, and we do not otherwise maintain code
->   samples. It has an upstream owner in the controller repository, which is the
->   argument for keeping it; it will drift silently if nobody re-checks it against
->   that repository, which is the argument against.
-> - **Missing:** anything about checkpointing a notebook rather than a script. A
->   large share of the work on this platform is done in notebooks, and "put it in
->   a script first" is advice a lot of readers will not take.
-
 Between the runtime limit, idle culling, reservation windows and the occasional
 maintenance closure, there are several ways for a container to stop that have
 nothing to do with faulty code. A job that cannot resume is restarted from zero,

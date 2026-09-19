@@ -1,43 +1,5 @@
 # Standard Images, Tags & Pinning
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The three images and the inheritance between them are
-> confirmed. What is *inside* each one is deliberately not listed here: the
-> package manifests change every quarter and are published from the image
-> repository itself.
->
-> - **Decision needed:** our own published articles disagree on how many
->   standard images there are. `KB0032173` says IT Services maintains "3
->   notebooks" and then names none of them; `KB0030587` says "two standard
->   notebook servers" and omits `rstudio-notebook` entirely. This page says
->   three and names them. One of those two articles needs correcting —
->   `KB0030587` also still directs instructors to the retired CINFO form.
-> - **Unverified:** that the conda environments shipped inside an image are
->   selectable both as Jupyter kernels and with `conda activate`. That comes
->   from `KB0032173` and describes environments we ship, not ones users create;
->   whether *user-created* conda environments are supported is an open question
->   on [Customizing an Environment](customizing-your-environment.md).
-> - **Check before publishing:** the image tag currently in service. This page
->   uses `:stable` and `:2024.4-stable` to show the two tag *forms*; it does not
->   claim `2024.4` is the current release.
-> - **Missing:** the CUDA toolkit version in `scipy-ml-notebook`, and the
->   package lists. Both are published from the image repository and both move;
->   restating them here would guarantee this page goes stale.
-> - **Decision needed:** what the dated tag numbers mean. `KB0034335` gives two
->   worked examples — `2023.2-stable` as the Spring 2023 image and
->   `2024.4-stable` as the Fall 2024 image. Those two points imply a
->   `<year>.<quarter>` scheme, but two points are not a documented convention and
->   this page does not state one. Either publish the convention or we keep telling
->   people to ask us for the tag.
-> - **Missing:** when quarterly image updates actually land. Readers pin
->   precisely because they want to avoid an update mid-term, and we do not publish
->   the dates. <!-- FIGURE: quarterly image release schedule -->
-> - **Check before publishing:** who may change a workspace's image tag.
->   `KB0034559` lists container tags among the system-side adjustments handled as
->   a service request, which implies staff rather than the manager. This page says
->   to ask by ticket.
-
 **IT Services maintains three standard software images.** They cover the great
 majority of courses and projects, they receive priority support, and each one is
 a starting point for a custom image where it does not go far enough.

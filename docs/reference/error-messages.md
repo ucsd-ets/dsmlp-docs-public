@@ -1,37 +1,5 @@
 # Error Messages: Symptom → Cause → Fix
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The causes and fixes below are confirmed. Several of the
-> message *strings* are not, and a page whose whole purpose is to be found by
-> searching for an error string needs them to be exact.
->
-> - **Check before publishing:** the wording of every quoted message. `OOMKilled`,
->   `DeadlineExceeded`, `Pending` and `0/5 nodes available` are confirmed as
->   strings; "Spawn failed when starting server", the GPU-quota sentence and the
->   disk-quota email subject are reproduced from `KB0030470` and have not been
->   checked against the current images.
-> - **Missing:** the verbatim text of two failures readers will paste into a
->   search box — what a container prints when `sudo` is refused, and what the
->   notebook says when a save fails on a full quota. Nobody has captured either.
->   <!-- FIGURE: exact text of the sudo refusal, and of the quota-exceeded save failure -->
-> - **Decision needed:** whether to print `0/5 nodes available` literally. The
->   count is however many nodes the scheduler considered and will not always be
->   five, so a reader matching the string exactly may conclude this page does not
->   cover their case.
-> - **Unverified, and worth acting on separately:** the ECE 284 WI23 course
->   README teaches that "8 CPU cores, 16 GB RAM and 1 GPU… is the maximum allowed
->   request on the DSMLP platform". It is wrong twice over — 16 GB is not the
->   per-pod memory limit, and 8/32/1 is a *default* rather than a maximum. The
->   last section of this page states the three tiers to displace it, but that
->   README is a public repository students still clone, and correcting it by
->   silence will not work.
-> - **Missing:** current third-party course material gives the Datahub browser
->   inactivity timeout as 30 minutes in one lesson and 20 minutes in another.
->   Neither figure is ours. This page says what our own mechanisms actually do;
->   if there *is* a browser-side inactivity disconnect, it is undocumented and
->   students are guessing at it.
-
 Most failures on this platform have one of about a dozen causes, and the message
 displayed rarely names the cause behind it. This page is organized by where the
 problem appears.

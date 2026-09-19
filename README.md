@@ -8,9 +8,10 @@ Built with [MkDocs](https://www.mkdocs.org/) and a bespoke theme carrying the
 page shell.
 
 > **The content is drafts.** It was imported from
-> [`ucsd-ets/dsmlp-doc-revise`](https://github.com/ucsd-ets/dsmlp-doc-revise),
-> where 32 of 48 pages open with a "Draft for review" note listing what the
-> writer could not settle. Read those notes before treating any page as final.
+> [`ucsd-ets/dsmlp-doc-revise`](https://github.com/ucsd-ets/dsmlp-doc-revise).
+> Every page carries a draft banner, and unpublished figures render as visible
+> placeholders. The per-page writer's notes are stripped on import and remain
+> upstream — read them there before treating any page as final.
 
 ## Local development
 
@@ -47,9 +48,15 @@ See [`AUTHORING.md`](AUTHORING.md) for the full picture.
 python3 tools/import-docs.py ../dsmlp-doc-revise/updated-docs
 ```
 
-Replaces `docs/` and normalizes directory links. Re-run it whenever the
-upstream drafts move; then update `nav:` in `mkdocs.yml` if pages were added
-or renamed.
+Replaces `docs/`, normalizes directory links, and strips the upstream
+editorial notes (the leading `> **Draft for review.**` blockquote on each
+technical page, plus the README's contributor-facing sections). Re-run it
+whenever the upstream drafts move; then update `nav:` in `mkdocs.yml` if pages
+were added or renamed.
+
+The site-wide draft banner comes from `extra.draft_banner` in `mkdocs.yml` —
+clear that one value to remove it from every page once the content is signed
+off.
 
 ## Layout
 

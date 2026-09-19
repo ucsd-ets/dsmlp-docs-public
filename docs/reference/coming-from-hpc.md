@@ -1,39 +1,5 @@
 # Coming from HPC: Vocabulary & Slurm Compatibility
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The mappings below are drawn from the platform's own
-> behaviour and from the launcher's Slurm compatibility layer. The gaps are
-> where a Slurm user's habit has no counterpart here at all.
->
-> - **Missing:** scratch. Every HPC user arrives looking for a fast, large,
->   purge-on-a-schedule scratch filesystem, and no source in this corpus
->   documents one — not its path, not its size, not its retention. Either there
->   is one and it should be on this page, or there is not and this page should
->   say so plainly. At present it can do neither.
->   <!-- FIGURE: whether a scratch filesystem exists, and its path and policy -->
-> - **Decision needed:** which GPU selection mechanism we recommend. `-v` names
->   a hardware model, `-l gpu-class=` names a size band, both work, and
->   `--gres=gpu:<model>:N` maps to the first while `--partition` maps to the
->   second. A user coming from Slurm will use both in one script unless we tell
->   them which one is ours.
-> - **Unverified:** the fairshare analogy in the last table row. Service Units
->   and borrowing seniority together do the job fairshare does elsewhere, but
->   nothing states that they are meant as one, and the mechanics are not
->   comparable.
-> - **Missing:** what `squeue` reports for a job that cannot be placed. With no
->   scheduler behind it, "pending" here does not mean "queued behind other work",
->   and a reader needs to know what it does mean.
-> - **Check before publishing:** the Slurm option mapping below. It is complete as
->   of launcher commit `c61188f` (2026-07-06), but this layer is new enough that a
->   submitted `sbatch` job is the right way to confirm it before we tell people to
->   rely on it. Nothing on it has been exercised against the running cluster.
-> - **Missing:** `sbatch --priority` is accepted by the wrapper and is not
->   documented here, because the underlying mechanism is one we have decided not
->   to publish. A Slurm user will try it. A reviewer should decide whether it is
->   better to document the option or to have it silently do something the user
->   cannot read about.
-
 For readers arriving from a Slurm cluster, most habits transfer and a few do not.
 This page is the translation table, and the three habits worth unlearning are at
 the bottom.

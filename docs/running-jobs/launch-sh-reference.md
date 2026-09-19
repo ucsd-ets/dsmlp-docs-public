@@ -1,27 +1,5 @@
 # `launch.sh` Reference
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The flag list, the defaults and the request/limit
-> behaviour below were read from the launcher's own source at commit `c61188f`
-> (2026-07-06), not from a published article. The prose around them is new.
->
-> - **Decision needed:** the GPU ceiling. The wrappers carry an inline comment
->   reading *"max of 2 (contact ETS to raise limit)"*, the published KB says 1, and
->   the tier table below says 1 by default. These cannot all be right.
->   <!-- FIGURE: the GPU count a single pod may request without a grant -->
-> - **Missing:** `-p low`. Per the documentation decision this page omits it — but
->   it is taught in the current (2025-26) edition of the DSC 180AB capstone,
->   Lesson 2, as the route to more than one GPU and to longer runs. Students will
->   arrive asking about a flag this table does not list, and the answer they get
->   from us should be a considered one rather than an improvised one.
-> - **Unverified:** three discrepancies between the launcher and the published
->   flag table. `-e <COMMAND>` is documented in KB0032273 but is not in the
->   launcher's option string at `c61188f`; `-f` works but has no `-h` entry; `-Y`
->   has a `-h` entry but is not accepted.
-> - **Check before publishing:** these flags came from a working copy, not a
->   running cluster. A `launch.sh -h` on `dsmlp-login` settles the whole table.
-
 This is the authoritative list of what `launch.sh` accepts, what it provides by
 default, and what the numbers passed to it mean. Work that outlives a terminal
 session is covered in [Interactive, Background & Batch Modes](job-modes-and-limits.md#the-three-modes); how long a container may run, in

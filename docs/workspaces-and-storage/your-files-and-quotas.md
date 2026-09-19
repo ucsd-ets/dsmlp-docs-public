@@ -1,57 +1,5 @@
 # Directories, Quotas & Cleaning Up
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The directory layout, the two quota pools and the route
-> to a member's own usage are confirmed. **No exact per-workspace quota figure is
-> published anywhere**, and the three articles that give one disagree.
->
-> - **Decision needed:** what we publish as the course home quota. `KB0030587`
->   states "100 GB student disk quota", `KB0030588` states "All students have a
->   10GB disk quota", and `KB0034559` advertises "10GB+ storage per student"; our
->   fact base says 5-10 GB depending on class size. This page publishes the range
->   and says it is set per workspace, which is true but is not what a student
->   filling a disk wants to read.
-> - **Decision needed:** whether per-workspace figures should be published at
->   all, or whether the disk-quota-service reading is the only number we ever
->   quote. The latter is defensible and is what this draft leans toward.
-> - **Decision needed:** whether to publish the
->   `/dsmlp/workspaces-fs0*/<WORKSPACE>/home/<username>` path shape at all. It is
->   already in two published articles and readers need it to `scp` into a course
->   home, but it exposes a filesystem layout that has changed at least once, and
->   the two articles spell it incompatibly.
-> - **Decision needed:** the capacity thresholds that govern what is mounted on
->   external storage. They are referred to but nowhere stated. The only published
->   numbers we can find are on Blink — a 200 TB minimum for SDSC Universal Scale
->   Storage and a 25 TB minimum for the Research IT Services variant — and those
->   read as purchase minimums for the storage service rather than as the
->   threshold at which a share is mounted into a workspace. This page does not
->   present them as such.
->   <!-- FIGURE: capacity thresholds governing what is mounted where -->
-> - **Check before publishing:** the command that lists the workspaces an account
->   belongs to is spelled `workspaces -l` in the prose of `KB0032277` and
->   `workspace -l` in the transcript on that same page; the FAQ uses
->   `workspace --list` and `workspace -c`. This page uses `workspace -l` /
->   `workspace -c`. Please confirm which spelling the installed command accepts.
-> - **Unverified:** that `public/` is writable only by the course grader account.
->   That is documented for courses (`KB0030588`) and nowhere stated for research
->   or lab workspaces, where the writer is presumably the PI or a delegate.
-> - **Unverified:** the 100 GB default for a group/team, which appears only in
->   the FAQ (`KB0030470`) and is not in the fact base.
-> - **Unverified:** the external-storage paths. `/uss/<sharename>` for uploads and
->   `/dsmlp/teams` as the view of the same share both come from the Research IT
->   Research Cluster Q/A page. Whether either holds for a Datahub/DSMLP workspace
->   is not stated anywhere.
-> - **Missing:** the size of the personal (`private/`) quota. No source in the
->   corpus states it — not as a figure, not as a range.
->   <!-- FIGURE: personal /private quota -->
-> - **Missing:** whether a file deleted after the 7-day Trash purge can be
->   recovered from backup, and by what request path. Nothing in the corpus says.
-> - **Missing:** whether an external mount appears in every container in the
->   workspace or is requested per environment; whether it is mounted read-only;
->   what becomes of it when the workspace is purged; and whose responsibility its
->   backup is.
-
 A session presents several distinct places to keep files, and which one is in
 view depends on the route in — browser or terminal — and on the workspace.
 Confusing them is the commonest cause of "my files have disappeared"; the files

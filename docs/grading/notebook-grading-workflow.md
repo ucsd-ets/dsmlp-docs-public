@@ -1,44 +1,5 @@
 # The Notebook Grading Workflow, End to End
 
-------------------------------------------------------------------------
-
-> **Draft for review.** The sequence below is drawn from `KB0032773` and
-> `KB0030588`, both ours. Four points need a human.
->
-> - **Decision needed:** how long the shared grader account lasts. Two of our
->   schedules disagree. One says access is retained for one additional quarter
->   beyond the instructional term; the other, a day-based schedule, removes
->   shared nbgrader and TA access **45 days** after the last day of class. For a
->   Spring course the two cannot both be true. This page states neither figure
->   and links out. → [How Long Access Lasts](../access/when-access-starts-and-ends.md#one-additional-quarter)
-> - **Check before publishing:** the assignment file size limit. `KB0032773`
->   says the default is 100MB and then gives the override as
->   `c.CourseDirectory.max_file_size = 400000`. The number is reproduced here
->   verbatim; its unit is not stated, and 400000 is not 400MB in bytes. Confirm
->   the unit before a TA raises the limit and gets something other than what
->   they expected.
-> - **Check before publishing:** `workspace --list` versus `workspace -l`.
->   `KB0034335` uses the long form, `KB0032773` the short one. This page uses
->   the long form for consistency with the rest of this documentation.
-> - **Missing:** any documented recovery for a submission collected under the
->   wrong assignment name, and any way to carry an assignment's configuration
->   from one term to the next. Both come up every quarter.
-> - **Decision needed:** `KB0034559` lists "Canvas gradebook integration" among
->   our standard features, and cites `KB0032344` for it — whose own table says,
->   for nbgrader, **Grades Import to Canvas: No**. An instructor reading the
->   scope-of-support article will plan around a gradebook push that does not
->   exist. This page contradicts that phrasing deliberately; `KB0034559` needs
->   rewording, and the wording should distinguish roster integration from grade
->   transfer rather than dropping the claim entirely.
-> - **Missing:** the column order Canvas expects in the CSV. `KB0032773` sends
->   readers to Canvas's own documentation rather than stating it, and so does this
->   page. If the export's format ever drifts from what Canvas accepts, no page of
->   ours would catch it.
-> - **Check before publishing:** whether the shared grader account has the Canvas
->   rights needed to import, or whether the instructor must do this step from
->   their own Canvas account. The two accounts are different identities and
->   nothing published says which one performs the upload.
-
 **nbgrader runs inside Datahub, from a shared course grader account.** This page
 is the whole loop: create, release, collect, grade, hand back, export. *The
 choice of tool comes first:*
