@@ -1,48 +1,68 @@
 # dsmlp-docs.ucsd.edu
 
-Documentation for UC San Diego's Data Science / Machine Learning Platform
-(DSMLP) and related ETS services.
+Documentation for UC San Diego's **Datahub** and **Data Science & Machine
+Learning Platform (DSMLP)**.
 
-Built with [Jekyll](https://jekyllrb.com/) and wrapped in the
+Built with [MkDocs](https://www.mkdocs.org/) and a bespoke theme carrying the
 [UC San Diego Decorator 5](https://developer.ucsd.edu/design/decorator/index.html)
 page shell.
+
+> **The content is drafts.** It was imported from
+> [`ucsd-ets/dsmlp-doc-revise`](https://github.com/ucsd-ets/dsmlp-doc-revise),
+> where 32 of 48 pages open with a "Draft for review" note listing what the
+> writer could not settle. Read those notes before treating any page as final.
 
 ## Local development
 
 ```bash
-bundle install
-bundle exec jekyll serve
+python3 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt
+mkdocs serve
 ```
 
 ## Writing documentation
 
-Everything in `docs/` is plain GitHub Flavored Markdown. No front matter,
-no Liquid, no HTML — if it renders on GitHub, it renders here. See
-[`docs/markdown-reference.md`](docs/markdown-reference.md) for the supported
-syntax, and [`AUTHORING.md`](AUTHORING.md) for how the build turns it into
-navigation.
+Everything in `docs/` is plain GitHub Flavored Markdown. No front matter, no
+template tags, no HTML. If it renders on GitHub, it renders here — heading
+anchors included, which is deliberate and is what `tools/hooks.py` exists for.
 
 Two conventions:
 
-- **One `#` per file, at the top.** It becomes the page title, the
-  breadcrumb, and the sidebar entry.
-- **Prefix filenames with `NN-` to order them** (`10-accounts.md`,
-  `20-launch.md`). The prefix is stripped from the URL. Without it, pages
-  sort alphabetically.
+- **One `#` per file, at the top.** It becomes the page title, the breadcrumb,
+  and the sidebar entry.
+- **Link to a section's `README.md`, not to its directory.** Write
+  `[Grading](../grading/README.md)`, not `[Grading](../grading/)`. Both work on
+  GitHub; only the first survives MkDocs' directory URLs. CI fails on the
+  second.
 
-`##` and `###` headings are collected into the sidebar automatically. Don't
-hand-maintain a table of contents.
+`##` and `###` headings are collected into the sidebar automatically — don't
+hand-maintain a table of contents. Page order and section grouping come from
+the `nav:` block in `mkdocs.yml`.
+
+See [`AUTHORING.md`](AUTHORING.md) for the full picture.
+
+## Re-importing the drafts
+
+```bash
+python3 tools/import-docs.py ../dsmlp-doc-revise/updated-docs
+```
+
+Replaces `docs/` and normalizes directory links. Re-run it whenever the
+upstream drafts move; then update `nav:` in `mkdocs.yml` if pages were added
+or renamed.
 
 ## Layout
 
 ```
-docs/                       content — vanilla GFM, no front matter
-_plugins/vanilla_docs.rb    turns docs/ into pages, nav, and per-page TOCs
-_data/navigation.yml        top-level navbar (hand-maintained, on purpose)
-_includes/decorator/        Decorator CHROME — copied verbatim, do not edit
-_includes/                  canvas partials (breadcrumbs, sidebar nav)
-_layouts/                   default + one layout per Decorator template
-_sass/_canvas.scss          site styles, all scoped under main#main-content
+docs/                    content — vanilla GFM, no front matter
+mkdocs.yml               nav, markdown extensions, link validation
+theme/                   the Decorator chrome AS the MkDocs theme
+  partials/chrome-*.html   CHROME — copied verbatim, do not edit
+  partials/breadcrumbs,sidebar  canvas partials, generated
+  css/site.css           site styles, all scoped under main#main-content
+tools/hooks.py           GitHub-compatible anchors + alert callouts
+tools/import-docs.py     re-import the upstream drafts
+tools/check-links.py     dead link/anchor check over the built HTML
 ```
 
 ## Before you change anything visual
@@ -54,18 +74,16 @@ Read [`DECORATOR.md`](DECORATOR.md). Short version:
   `ucsd-decorator-v5` and are checked by an integrity gate in CI.
 - Decorator's own CSS/JS load from `cdn.ucsd.edu` and must stay that way —
   do not vendor or self-compile them for serving.
-- Site CSS must be scoped under the canvas selector. An unscoped
-  `.btn { }` reaches into the campus chrome.
-
-## Why Jekyll
-
-[`SSG-OPTIONS.md`](SSG-OPTIONS.md) compares this setup against MkDocs and
-Docusaurus, measured with UCSD's own chrome integrity gate. Short version:
-MkDocs with a custom theme is a viable 1–2 day port that would delete the
-custom generator; Docusaurus is blocked, because its Infima CSS framework
-redefines `.row`, `.container`, `.navbar`, `.footer` and `.dropdown` — the
-same class names the Decorator chrome is built on.
+- Site CSS must be scoped under `main#main-content`. An unscoped `.btn { }`
+  reaches into the campus chrome, and CI fails on it.
 
 ## Deployment
 
-Pushes to `main` build and deploy via `.github/workflows/pages.yml`.
+Pushes to `main` build and deploy via `.github/workflows/build-and-deploy.yml`.
+The build runs `mkdocs build --strict`, so a broken cross-reference fails CI
+rather than shipping.
+
+## Why MkDocs
+
+[`SSG-OPTIONS.md`](SSG-OPTIONS.md) compares MkDocs, Jekyll and Docusaurus,
+measured with UCSD's own chrome integrity gate.

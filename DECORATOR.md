@@ -1,8 +1,8 @@
-# Decorator 5 → Jekyll: what folds in, what doesn't
+# Decorator 5 in this site: what folds in, what doesn't
 
 An assessment of the [UC San Diego Decorator 5](https://developer.ucsd.edu/design/decorator/index.html)
-front-end toolkit against what Jekyll can generate for this GitHub Pages site,
-plus the scaffold in this repo that verifies it.
+front-end toolkit against what a static site generator can carry, and how
+this repo does it with MkDocs.
 
 ## The governing idea: chrome vs. canvas
 
@@ -16,24 +16,34 @@ published in [`UCSD/decorator-kit`](https://github.com/UCSD/decorator-kit):
   search blocks, and the footer. **Not yours to edit.**
 - **Canvas** — `main#main-content`. Everything inside it is yours.
 
-That split is what makes Jekyll a good fit rather than a workaround. The
+That split is what makes a generated site a good fit rather than a workaround. The
 contract explicitly anticipates generated sites: *"In a generated site one
 shell file feeds every route; in a hand-authored site every page carries its
-own copy."* Jekyll is the first case, which is the one the contract prefers.
+own copy."* A generated site is the first case, which is the one the
+contract prefers.
 
-## What folds into Jekyll
+## What folds into the theme
 
-| Decorator element | Jekyll mechanism | Notes |
+| Decorator element | MkDocs mechanism | Notes |
 |---|---|---|
-| Header, title band, drawer, navbar, footer | `_includes/decorator/*.html` + `_layouts/default.html` | Copied verbatim. One shell feeds every route. |
-| Nav `<li>` links (drawer + navbar) | `_data/navigation.yml` + Liquid loop | Explicitly sanctioned — see below. |
-| Site title in `.title-header` | `site.title` / `site.title_short` | Per-site by definition. |
-| Breadcrumbs | `_includes/breadcrumbs.html` | Inside the canvas → freely generated. |
-| Sidebar nav (`.main-content-nav`) | `_includes/sidebar-nav.html` | Inside the canvas → freely generated. |
-| Page templates (two-column, blank-slate, three-column, homepage) | `_layouts/*.html` | One layout per template. |
-| `<head>` metadata | Front matter → `_layouts/default.html` | `PAGETITLE`, `DESCRIPTION`, etc. |
-| Body content | Markdown | Kramdown/GFM inside the canvas. |
-| Site-specific CSS | `_sass/` + `assets/css/site.scss` | **Canvas-scoped only.** See below. |
+| Header, title band, drawer, navbar, footer | `theme/partials/chrome-*.html` + `theme/main.html` | Copied verbatim. One shell feeds every route. |
+| Nav `<li>` links (drawer + navbar) | MkDocs' `nav` object, from `mkdocs.yml` | Explicitly sanctioned — see below. |
+| Site title in `.title-header` | `config.site_name` / `extra.site_name_short` | Per-site by definition. |
+| Breadcrumbs | `theme/partials/breadcrumbs.html`, from `page.ancestors` | Inside the canvas → freely generated. |
+| Sidebar nav (`.main-content-nav`) | `theme/partials/sidebar.html`, from `nav` + `page.toc` | Inside the canvas → freely generated. |
+| `<head>` metadata | `theme/main.html` | `PAGETITLE`, `DESCRIPTION`, etc. |
+| Body content | Markdown | Python-Markdown inside the canvas. |
+| Site-specific CSS | `theme/css/site.css` | **Canvas-scoped only.** See below. |
+
+The theme is bespoke (`theme: {name: null, custom_dir: theme}`), not a
+Material override. That is the point: no third-party CSS framework loads, so
+nothing can collide with the Bootstrap 3 vocabulary the chrome is built on.
+
+**Chrome URLs are root-relative on purpose.** MkDocs' idiomatic `|url` filter
+emits paths relative to the current page, which makes the chrome differ by
+directory depth — measured as 5 tier 1 "cross-page consistency" failures,
+because the chrome must be byte-identical on every route. Do not "fix" the
+`/{{ item.url }}` links in `theme/partials/chrome-header.html` to use `|url`.
 
 ### Why the nav links are safe to generate
 
@@ -41,7 +51,7 @@ own copy."* Jekyll is the first case, which is the one the contract prefers.
 navbar's `ul.nav.navbar-nav` as `ignoreChildrenOf`. Their children are emptied
 before the chrome is hashed, precisely so a data-driven nav doesn't trip the
 gate. The `<ul>` is chrome; the `<li>`s inside it are yours. This is designed
-for exactly the Jekyll case.
+for exactly this case.
 
 ### Why breadcrumbs and sidebar nav are safe to generate
 
@@ -70,9 +80,8 @@ So it is technically possible. Three reasons not to:
    (`version.json` is 404), and its directory listing is 403. A self-compiled
    copy silently diverges from what campus actually serves, with no signal.
 
-**Where raw Sass *is* the right tool:** your own canvas styles. Jekyll's
-built-in Sass handles this with no extra toolchain — see `_sass/_canvas.scss`,
-where every rule is scoped under `main#main-content`. That scoping is
+**Where site-authored CSS *is* fine:** your own canvas styles. See
+`theme/css/site.css`, where every rule is scoped under `main#main-content`. That scoping is
 load-bearing, not cosmetic: the shell and the canvas share the entire
 Bootstrap 3 vocabulary, so a bare `.input-group { }` reaches into the drawer
 search without naming a single chrome class.
@@ -116,25 +125,17 @@ Two more upstream facts worth knowing:
 
 ## Build path: Actions, not the built-in Pages builder
 
-| | Built-in Pages builder | GitHub Actions |
-|---|---|---|
-| Jekyll | 3.10.0 (pinned) | any |
-| Sass | jekyll-sass-converter 1.5.2 → Ruby Sass 3.7.4 (EOL 2019) | Dart Sass |
-| Plugins | 47-gem allowlist, safe mode | any |
-| Chrome integrity gate | **cannot run** (Node) | yes |
+The built-in GitHub Pages builder only builds Jekyll, and it runs in safe mode,
+so it can build neither this MkDocs site nor the Node-based chrome integrity
+gate. `.github/workflows/build-and-deploy.yml` does both.
 
-Verified against `https://pages.github.com/versions.json`. The gate is the
-deciding factor: it's a Node check over built HTML, so the built-in builder
-can't run it at all.
+## Verification status
 
-## Verification status of this scaffold
+Built with MkDocs 1.6.1 (`--strict`, zero warnings), then checked with UCSD's
+own gate (`checks/chrome-contract.mjs --check`) against the built `_site`:
 
-Built with Jekyll 4.4.1 / jekyll-sass-converter 3.1.0, then checked with
-UCSD's own gate (`checks/chrome-contract.mjs --check`) against the built
-`_site`:
-
-- **Tier 1 (cross-page consistency) — pass.** All routes share byte-identical
-  chrome. This is free with Jekyll and is the main structural win.
+- **Tier 1 (cross-page consistency) — pass.** All 48 routes share identical
+  chrome. Free with a generated site, and the main structural win.
 - **Tier 2 (golden fingerprint) — 6 findings, all "no golden recorded yet."**
   Expected first-run state. A human reviews the rendered chrome once and runs
   `--accept` to record the baseline. **Never run that from CI or an agent** —
@@ -143,17 +144,21 @@ UCSD's own gate (`checks/chrome-contract.mjs --check`) against the built
 - **Tier 4 (styling/scripting) — pass.** No site CSS reaches the shell, and the
   page ground is unpainted.
 
-Internal link check: 0 dead links.
+Also verified in a headless browser at 1280px and 390px: no JS errors, the
+offcanvas drawer toggles and clones as designed, `.row` computes to `block`
+(the Bootstrap float grid is intact), the navbar does not wrap, and there is no
+horizontal scroll. Link check over the built HTML: 0 dead links, 0 dead
+anchors across 48 pages.
+
+MkDocs' bundled lunr search is disabled: enabling it as-is produced a tier 4
+finding, and the chrome already owns `#search`, `#q` and `#search-scope`. An
+in-site search needs its own UI inside the canvas.
 
 ## Open decisions
 
-1. **Which template.** This scaffold demonstrates `two-column` (sidebar nav,
-   the usual docs shape) and `blank-slate`. `three-column` and `homepage` are
-   also available. The kit deliberately requires a human to choose.
-2. **Whether to adopt the kit wiring** (`npx ucsd-decorator-kit add --with-ci`),
-   which adds Dependabot on `ucsd-decorator-v5` + the kit, the CI gate, and
-   agent rule files. Recommended, since the CDN moves without notice.
-3. **Site search.** The template's search posts to the campus-wide redirect at
-   `act.ucsd.edu` and offers only "All UCSD Sites" / "Faculty/Staff" — there is
-   no "This Site" scope. Searching *this* site needs something else, and the
-   search block itself is chrome.
+1. **Record the chrome golden baseline.** Until a human does, CI's gate step is
+   `continue-on-error`.
+2. **In-site search**, per above.
+3. **Whether to adopt the kit wiring** (`npx ucsd-decorator-kit add --with-ci`),
+   which adds Dependabot on `ucsd-decorator-v5` plus the kit. Recommended,
+   since the CDN moves without notice.

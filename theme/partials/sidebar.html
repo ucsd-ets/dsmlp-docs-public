@@ -1,0 +1,44 @@
+{#
+  CANVAS. Two generated lists, neither hand-maintained:
+
+    * the current section's sibling pages, from MkDocs' own `nav`
+    * an in-page table of contents, from page.toc
+
+  page.toc's top level is the document's single H1, whose children are the
+  H2s. The H1 is already rendered as the page heading, so this walks
+  page.toc[0].children rather than page.toc -- otherwise the page title
+  appears in its own "On this page" list.
+#}
+<section class="col-xs-12 col-md-3 sidebar-section">
+	<article class="main-content-nav" role="navigation">
+{%- for item in nav %}
+{%- if item.children and item.active %}
+{#- A section's first child is its README/index page. Linking the <h2> to it
+    and dropping it from the list avoids naming the section twice. -#}
+{%- set index = item.children[0] if item.children[0].title == item.title else none %}
+{%- set entries = item.children[1:] if index else item.children %}
+		<h2>{% if index %}<a href="/{{ index.url }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</h2>
+		<ul class="navbar-list">
+{%- for child in entries %}
+			<li class="{{ 'expanded active' if child.active else 'collapsed' }}">
+				<a href="/{{ child.url }}">{{ child.title }}</a>
+			</li>
+{%- endfor %}
+		</ul>
+{%- endif %}
+{%- endfor %}
+{%- set headings = page.toc|list %}
+{%- set sub = headings[0].children if headings|length == 1 else headings %}
+{%- if sub %}
+		<h2>On this page</h2>
+		<ul class="navbar-list docs-toc">
+{%- for h in sub %}
+			<li class="collapsed"><a href="{{ h.url }}">{{ h.title }}</a></li>
+{%- for c in h.children %}
+			<li class="collapsed docs-toc__l3"><a href="{{ c.url }}">{{ c.title }}</a></li>
+{%- endfor %}
+{%- endfor %}
+		</ul>
+{%- endif %}
+	</article>
+</section>
