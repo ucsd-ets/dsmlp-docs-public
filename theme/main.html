@@ -43,6 +43,7 @@
 	{% include "partials/chrome-header.html" %}
 
 	<main class="layout-main" id="main-content" role="main">
+		{%- include "partials/preview-banner.html" %}
 
 		{% include "partials/breadcrumbs.html" %}
 
@@ -85,9 +86,15 @@
 					</noscript>
 					{%- endif %}
 
-					{%- if page.meta.source_url or config.repo_url %}
+					{#-
+					  CANVAS. Routes to the public repo's issue chooser, not to an
+					  edit link: the source lives in a private repository, and a
+					  commit made in the published snapshot is overwritten by the
+					  next publish. See CONTRIBUTING.md in the public repo.
+					-#}
+					{%- if config.repo_url %}
 					<p class="docs-edit-link">
-						<a href="{{ config.repo_url }}">Suggest an edit to this page</a>
+						<a href="{{ config.repo_url }}/issues/new/choose">Report a problem with this page</a>
 					</p>
 					{%- endif %}
 				</section>

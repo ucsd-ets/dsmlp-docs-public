@@ -3,8 +3,13 @@ site_url: https://dsmlp-docs.ucsd.edu/
 site_description: >-
   Documentation for UC San Diego's Datahub and Data Science & Machine Learning
   Platform (DSMLP).
-repo_url: https://github.com/ucsd-ets/ucsd-ets.github.io
-edit_uri: edit/main/docs/
+# The PUBLIC repository, deliberately. Readers cannot see the private source,
+# and the theme routes "Report a problem" to this repo's issue chooser -- which
+# is the contribution path the public README and CONTRIBUTING describe.
+# No edit_uri: the source is not editable by readers, so an "edit this page"
+# link would send them somewhere they cannot commit and that a publish would
+# overwrite anyway.
+repo_url: https://github.com/ucsd-ets/dsmlp-docs-public
 
 docs_dir: docs
 site_dir: _site
@@ -20,14 +25,22 @@ extra:
   site_name_short: DSMLP
   feedback_email: datahub@ucsd.edu
 
+  # Preview-site notice, shown on every page by
+  # theme/partials/preview-banner.html. This MUST stay empty here.
+  # .github/workflows/preview.yml substitutes a value into this exact line
+  # while staging the preview, so the production build never carries a banner
+  # and stays byte-identical. The workflow fails loudly if this line stops
+  # matching, rather than silently publishing an unlabelled preview.
+  preview_banner: ""
+
   # Site-wide draft notice, shown on every page by
   # theme/partials/draft-banner.html. Clear this value to remove it everywhere
   # once the content is signed off -- there is no per-page markup to hunt down.
   draft_banner: >-
     This documentation is in draft and under active review. Figures for the
     Fall 2026 GPU reservation system are not yet published, and some pages
-    describe behaviour that has not been verified against a primary source.
-    Check with us before relying on anything here.
+    describe behavior that has not been verified against a primary source.
+    Confirm any figure with datahub@ucsd.edu before relying on it.
 
 # In-site search. The Decorator chrome already owns #search, #q and
 # #search-scope and points them at the campus-wide redirect, so this cannot

@@ -3,17 +3,42 @@
 Documentation for UC San Diego's **Datahub** and **Data Science & Machine
 Learning Platform (DSMLP)**.
 
-Built with [MkDocs](https://www.mkdocs.org/) and a bespoke theme carrying the
+**Read it at <https://dsmlp-docs.ucsd.edu/>.**
+
+## This repository is a published snapshot
+
+The pages here are generated automatically from a privately maintained source
+repository. Nobody commits to this repository by hand, and anything committed
+here directly is overwritten by the next publish.
+
+### Found a problem? Want something changed?
+
+**[Open an issue](../../issues/new/choose).** That is the fastest route and the
+one we watch. Wrong instructions, a dead link, a page that assumes knowledge you
+do not have, a missing topic — all of it is worth telling us about.
+
+Pull requests are welcome and we read every one, but we cannot merge them here.
+A maintainer ports the change into the source repository, credits you in the
+commit, and then closes the PR with a link to the live page.
+
+For help with **your own account, course, or job** — not the documentation —
+email <datahub@ucsd.edu> rather than filing an issue here.
+
+## Built with
+
+[MkDocs](https://www.mkdocs.org/) and a bespoke theme carrying the
 [UC San Diego Decorator 5](https://developer.ucsd.edu/design/decorator/index.html)
-page shell.
+page shell. Content in `docs/` is plain GitHub Flavored Markdown.
 
-> **The content is drafts.** It was imported from
-> [`ucsd-ets/dsmlp-doc-revise`](https://github.com/ucsd-ets/dsmlp-doc-revise).
-> Every page carries a draft banner, and unpublished figures render as visible
-> placeholders. The per-page writer's notes are stripped on import and remain
-> upstream — read them there before treating any page as final.
+```
+docs/               content
+mkdocs.yml          nav, markdown extensions, link validation
+theme/              the Decorator chrome as the MkDocs theme
+tools/hooks.py      GitHub-compatible heading anchors, alert callouts
+tools/check-links.py  dead link and anchor check over the built HTML
+```
 
-## Local development
+To build it locally:
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
@@ -21,85 +46,4 @@ pip install -r requirements.txt
 mkdocs serve
 ```
 
-## Writing documentation
-
-Everything in `docs/` is plain GitHub Flavored Markdown. No front matter, no
-template tags, no HTML. If it renders on GitHub, it renders here — heading
-anchors included, which is deliberate and is what `tools/hooks.py` exists for.
-
-Two conventions:
-
-- **One `#` per file, at the top.** It becomes the page title, the breadcrumb,
-  and the sidebar entry.
-- **Link to a section's `README.md`, not to its directory.** Write
-  `[Grading](../grading/README.md)`, not `[Grading](../grading/)`. Both work on
-  GitHub; only the first survives MkDocs' directory URLs. CI fails on the
-  second.
-
-`##` and `###` headings are collected into the sidebar automatically — don't
-hand-maintain a table of contents. Page order and section grouping come from
-the `nav:` block in `mkdocs.yml`.
-
-See [`AUTHORING.md`](AUTHORING.md) for the full picture.
-
-## Re-importing the drafts
-
-```bash
-python3 tools/import-docs.py ../dsmlp-doc-revise/updated-docs
-```
-
-Replaces `docs/`, normalizes directory links, and strips the upstream
-editorial notes (the leading `> **Draft for review.**` blockquote on each
-technical page, plus the README's contributor-facing sections). Re-run it
-whenever the upstream drafts move; then update `nav:` in `mkdocs.yml` if pages
-were added or renamed.
-
-The site-wide draft banner comes from `extra.draft_banner` in `mkdocs.yml` —
-clear that one value to remove it from every page once the content is signed
-off.
-
-## Layout
-
-```
-docs/                    content — vanilla GFM, no front matter
-mkdocs.yml               nav, markdown extensions, link validation
-theme/                   the Decorator chrome AS the MkDocs theme
-  partials/chrome-*.html   CHROME — copied verbatim, do not edit
-  partials/breadcrumbs,sidebar  canvas partials, generated
-  css/site.css           site styles, all scoped under main#main-content
-tools/hooks.py           GitHub-compatible anchors + alert callouts
-tools/import-docs.py     re-import the upstream drafts
-tools/check-links.py     dead link/anchor check over the built HTML
-```
-
-## Search
-
-The search box in the page header searches **this site** by default, using
-lunr. Its scope selector still offers the two campus-wide scopes, which route
-out to `www.ucsd.edu/search` as before. Results render on `/search/`, which is
-the only page that loads the search index. See
-[`AUTHORING.md`](AUTHORING.md#search) — including which parts of that form are
-reserved and must not be renamed.
-
-## Before you change anything visual
-
-Read [`DECORATOR.md`](DECORATOR.md). Short version:
-
-- Everything inside `main#main-content` is yours.
-- The header, drawer, navbar, and footer are not. They come from
-  `ucsd-decorator-v5` and are checked by an integrity gate in CI.
-- Decorator's own CSS/JS load from `cdn.ucsd.edu` and must stay that way —
-  do not vendor or self-compile them for serving.
-- Site CSS must be scoped under `main#main-content`. An unscoped `.btn { }`
-  reaches into the campus chrome, and CI fails on it.
-
-## Deployment
-
-Pushes to `main` build and deploy via `.github/workflows/build-and-deploy.yml`.
-The build runs `mkdocs build --strict`, so a broken cross-reference fails CI
-rather than shipping.
-
-## Why MkDocs
-
-[`SSG-OPTIONS.md`](SSG-OPTIONS.md) compares MkDocs, Jekyll and Docusaurus,
-measured with UCSD's own chrome integrity gate.
+See [CONTRIBUTING.md](CONTRIBUTING.md).

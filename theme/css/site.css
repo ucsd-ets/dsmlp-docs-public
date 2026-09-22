@@ -247,6 +247,45 @@ main#main-content .docs-draft-banner__label {
 	color: var(--ucsd-dark-blue);
 }
 
+/* ---- Preview-site notice -------------------------------------------- *
+ * Only ever rendered on the preview site; extra.preview_banner is empty in
+ * the published configuration. Solid dark blue rather than the draft
+ * banner's yellow outline, because this one has to be unmissable: it is
+ * telling the reader they are not on the published site.
+ */
+
+main#main-content .docs-preview-banner {
+	background: var(--ucsd-dark-blue);
+	color: #fff;
+	border-left: 5px solid var(--ucsd-teal);
+	padding: 14px 16px;
+	margin: 0 15px 22px;
+}
+
+main#main-content .docs-preview-banner > :last-child {
+	margin-bottom: 0;
+}
+
+main#main-content .docs-preview-banner__label {
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	font-size: 12px;
+	margin-bottom: 4px;
+	color: var(--ucsd-teal);
+}
+
+main#main-content .docs-preview-banner__link a,
+main#main-content .docs-preview-banner__link a:visited {
+	color: #fff;
+	text-decoration: underline;
+}
+
+main#main-content .docs-preview-banner__link a:hover,
+main#main-content .docs-preview-banner__link a:focus {
+	color: var(--ucsd-yellow);
+}
+
 /* ---- Unpublished figures ------------------------------------------- *
  * Marks a number that does not exist yet, so a gap reads as a gap rather
  * than as a blank table cell or a missing word mid-sentence.
